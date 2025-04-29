@@ -377,19 +377,6 @@ type RepositoryRulesetInitParameters struct {
 	// The name of the ruleset.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (String) Name of the repository to apply rulset to.
-	// Name of the repository to apply rulset to.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/repo/v1alpha1.Repository
-	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
-
-	// Reference to a Repository in repo to populate repository.
-	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
-
-	// Selector for a Repository in repo to populate repository.
-	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
-
 	// (Block List, Min: 1, Max: 1) Rules within the ruleset. (see below for nested schema)
 	// Rules within the ruleset.
 	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
@@ -426,10 +413,6 @@ type RepositoryRulesetObservation struct {
 	// GraphQL global node id for use with v4 API.
 	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
 
-	// (String) Name of the repository to apply rulset to.
-	// Name of the repository to apply rulset to.
-	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
-
 	// (Block List, Min: 1, Max: 1) Rules within the ruleset. (see below for nested schema)
 	// Rules within the ruleset.
 	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
@@ -464,20 +447,6 @@ type RepositoryRulesetParameters struct {
 	// The name of the ruleset.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (String) Name of the repository to apply rulset to.
-	// Name of the repository to apply rulset to.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/repo/v1alpha1.Repository
-	// +kubebuilder:validation:Optional
-	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
-
-	// Reference to a Repository in repo to populate repository.
-	// +kubebuilder:validation:Optional
-	RepositoryRef *v1.Reference `json:"repositoryRef,omitempty" tf:"-"`
-
-	// Selector for a Repository in repo to populate repository.
-	// +kubebuilder:validation:Optional
-	RepositorySelector *v1.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
 	// (Block List, Min: 1, Max: 1) Rules within the ruleset. (see below for nested schema)
 	// Rules within the ruleset.

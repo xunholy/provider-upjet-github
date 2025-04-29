@@ -19,9 +19,6 @@ spec:
         - ~ALL
     enforcement: active
     name: example
-    repositorySelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
     rules:
     - creation: true
       deletion: true
