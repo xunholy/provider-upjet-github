@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Release is the Schema for the Releases API. Creates and manages
-          releases within a single GitHub repository
+        description: Release is the Schema for the Releases API. Resource to manage
+          a GitHub release.
         properties:
           apiVersion:
             description: |-
@@ -75,38 +75,38 @@ spec:
                 properties:
                   body:
                     description: |-
-                      Text describing the contents of the tag.
+                      (String) Text describing the contents of the tag.
                       Text describing the contents of the tag.
                     type: string
                   discussionCategoryName:
                     description: |-
-                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see Managing categories for discussions in your repository.
-                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository.
+                      (String) If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
+                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
                     type: string
                   draft:
                     description: |-
-                      Set to false to create a published release.
-                      Set to 'false' to create a published release.
+                      (Boolean) Set to false to create a published release.
+                      Set to `false` to create a published release.
                     type: boolean
                   generateReleaseNotes:
                     description: |-
-                      Set to true to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
-                      Set to 'true' to automatically generate the name and body for this release. If 'name' is specified, the specified name will be used; otherwise, a name will be automatically generated. If 'body' is specified, the body will be pre-pended to the automatically generated notes.
+                      pended to the automatically generated notes.
+                      Set to `true` to automatically generate the name and body for this release when it is created. If `name` is specified, the specified name will be used; otherwise, a name will be automatically generated. If `body` is specified, the body will be pre-pended to the automatically generated notes.
                     type: boolean
                   name:
                     description: |-
-                      The name of the release.
+                      (String) The name of the release.
                       The name of the release.
                     type: string
                   prerelease:
                     description: |-
-                      Set to false to identify the release as a full release.
-                      Set to 'false' to identify the release as a full release.
+                      (Boolean) Set to false to identify the release as a full release.
+                      Set to `false` to identify the release as a full release.
                     type: boolean
                   repository:
                     description: |-
-                      The name of the repository.
-                      The name of the repository.
+                      (String) Name of the repository.
+                      Name of the repository.
                     type: string
                   repositoryRef:
                     description: Reference to a Repository in repo to populate repository.
@@ -184,13 +184,13 @@ spec:
                     type: object
                   tagName:
                     description: |-
-                      The name of the tag.
-                      The name of the tag.
+                      (String) Name of the tag.
+                      Name of the tag.
                     type: string
                   targetCommitish:
                     description: |-
-                      The branch name or commit SHA the tag is created from. Defaults to the default branch of the repository.
-                      The branch name or commit SHA the tag is created from.
+                      (String) The branch name or commit SHA the tag is created from; this defaults to main.
+                      The branch name or commit SHA the tag is created from; this defaults to `main`.
                     type: string
                   targetCommitishRef:
                     description: Reference to a Branch in repo to populate targetCommitish.
@@ -282,38 +282,38 @@ spec:
                 properties:
                   body:
                     description: |-
-                      Text describing the contents of the tag.
+                      (String) Text describing the contents of the tag.
                       Text describing the contents of the tag.
                     type: string
                   discussionCategoryName:
                     description: |-
-                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see Managing categories for discussions in your repository.
-                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository.
+                      (String) If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
+                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
                     type: string
                   draft:
                     description: |-
-                      Set to false to create a published release.
-                      Set to 'false' to create a published release.
+                      (Boolean) Set to false to create a published release.
+                      Set to `false` to create a published release.
                     type: boolean
                   generateReleaseNotes:
                     description: |-
-                      Set to true to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
-                      Set to 'true' to automatically generate the name and body for this release. If 'name' is specified, the specified name will be used; otherwise, a name will be automatically generated. If 'body' is specified, the body will be pre-pended to the automatically generated notes.
+                      pended to the automatically generated notes.
+                      Set to `true` to automatically generate the name and body for this release when it is created. If `name` is specified, the specified name will be used; otherwise, a name will be automatically generated. If `body` is specified, the body will be pre-pended to the automatically generated notes.
                     type: boolean
                   name:
                     description: |-
-                      The name of the release.
+                      (String) The name of the release.
                       The name of the release.
                     type: string
                   prerelease:
                     description: |-
-                      Set to false to identify the release as a full release.
-                      Set to 'false' to identify the release as a full release.
+                      (Boolean) Set to false to identify the release as a full release.
+                      Set to `false` to identify the release as a full release.
                     type: boolean
                   repository:
                     description: |-
-                      The name of the repository.
-                      The name of the repository.
+                      (String) Name of the repository.
+                      Name of the repository.
                     type: string
                   repositoryRef:
                     description: Reference to a Repository in repo to populate repository.
@@ -391,13 +391,13 @@ spec:
                     type: object
                   tagName:
                     description: |-
-                      The name of the tag.
-                      The name of the tag.
+                      (String) Name of the tag.
+                      Name of the tag.
                     type: string
                   targetCommitish:
                     description: |-
-                      The branch name or commit SHA the tag is created from. Defaults to the default branch of the repository.
-                      The branch name or commit SHA the tag is created from.
+                      (String) The branch name or commit SHA the tag is created from; this defaults to main.
+                      The branch name or commit SHA the tag is created from; this defaults to `main`.
                     type: string
                   targetCommitishRef:
                     description: Reference to a Branch in repo to populate targetCommitish.
@@ -572,102 +572,112 @@ spec:
                 properties:
                   assetsUrl:
                     description: |-
-                      URL that can be provided to API calls displaying the attached assets to this release.
+                      (String) The URL for the release assets.
                       The URL for the release assets.
                     type: string
                   body:
                     description: |-
-                      Text describing the contents of the tag.
+                      (String) Text describing the contents of the tag.
                       Text describing the contents of the tag.
                     type: string
                   createdAt:
                     description: |-
-                      This is the date of the commit used for the release, and not the date when the release was drafted or published.
+                      (String) The date and time the release was created.
                       The date and time the release was created.
                     type: string
                   discussionCategoryName:
                     description: |-
-                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see Managing categories for discussions in your repository.
-                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository.
+                      (String) If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
+                      If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
                     type: string
                   draft:
                     description: |-
-                      Set to false to create a published release.
-                      Set to 'false' to create a published release.
+                      (Boolean) Set to false to create a published release.
+                      Set to `false` to create a published release.
                     type: boolean
                   etag:
+                    description: |-
+                      (String) The ETag of the release.
+                      The ETag of the release.
                     type: string
                   generateReleaseNotes:
                     description: |-
-                      Set to true to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
-                      Set to 'true' to automatically generate the name and body for this release. If 'name' is specified, the specified name will be used; otherwise, a name will be automatically generated. If 'body' is specified, the body will be pre-pended to the automatically generated notes.
+                      pended to the automatically generated notes.
+                      Set to `true` to automatically generate the name and body for this release when it is created. If `name` is specified, the specified name will be used; otherwise, a name will be automatically generated. If `body` is specified, the body will be pre-pended to the automatically generated notes.
                     type: boolean
                   htmlUrl:
                     description: |-
-                      URL of the release in GitHub.
+                      (String) The HTML URL for the release.
                       The HTML URL for the release.
                     type: string
                   id:
+                    description: (String) The ID of this resource.
                     type: string
                   name:
                     description: |-
-                      The name of the release.
+                      (String) The name of the release.
                       The name of the release.
                     type: string
                   nodeId:
                     description: |-
-                      GraphQL global node id for use with v4 API
+                      (String) The node ID of the release.
                       The node ID of the release.
                     type: string
                   prerelease:
                     description: |-
-                      Set to false to identify the release as a full release.
-                      Set to 'false' to identify the release as a full release.
+                      (Boolean) Set to false to identify the release as a full release.
+                      Set to `false` to identify the release as a full release.
                     type: boolean
                   publishedAt:
                     description: |-
-                      This is the date when the release was published. This will be empty if the release is a draft.
+                      (String) The date and time the release was published.
                       The date and time the release was published.
                     type: string
                   releaseId:
                     description: |-
-                      The ID of the release.
+                      (Number) The ID of the release.
                       The ID of the release.
                     format: int64
                     type: integer
                   repository:
                     description: |-
-                      The name of the repository.
-                      The name of the repository.
+                      (String) Name of the repository.
+                      Name of the repository.
                     type: string
+                  repositoryId:
+                    description: |-
+                      (Number) ID of the repository.
+                      ID of the repository.
+                    format: int64
+                    type: integer
                   tagName:
                     description: |-
-                      The name of the tag.
-                      The name of the tag.
+                      (String) Name of the tag.
+                      Name of the tag.
                     type: string
                   tarballUrl:
                     description: |-
-                      URL that can be provided to API calls to fetch the release TAR archive.
+                      (String) The URL for the tarball of the release.
                       The URL for the tarball of the release.
                     type: string
                   targetCommitish:
                     description: |-
-                      The branch name or commit SHA the tag is created from. Defaults to the default branch of the repository.
-                      The branch name or commit SHA the tag is created from.
+                      (String) The branch name or commit SHA the tag is created from; this defaults to main.
+                      The branch name or commit SHA the tag is created from; this defaults to `main`.
                     type: string
                   uploadUrl:
                     description: |-
-                      URL that can be provided to API calls to upload assets.
+                      (String) The URL for the uploaded assets of release.
                       The URL for the uploaded assets of release.
                     type: string
                   url:
                     description: |-
-                      URL that can be provided to API calls that reference this release.
+                      (String) The URL for the release.
                       The URL for the release.
                     type: string
                   zipballUrl:
                     description: |-
-                      URL that can be provided to API calls to fetch the release ZIP archive.
+                      (String) The URL for the zipball of the release.
                       The URL for the zipball of the release.
                     type: string
                 type: object

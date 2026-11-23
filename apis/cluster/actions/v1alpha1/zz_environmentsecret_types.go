@@ -15,11 +15,11 @@ import (
 
 type EnvironmentSecretInitParameters struct {
 
-	// (DEPRECATED) Please use value_encrypted.
+	// (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
 	// Encrypted value of the secret using the GitHub public key in Base64 format.
 	EncryptedValueSecretRef *v2.SecretKeySelector `json:"encryptedValueSecretRef,omitempty" tf:"-"`
 
-	// Name of the environment.
+	// (String) Name of the environment.
 	// Name of the environment.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Environment
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
@@ -32,15 +32,15 @@ type EnvironmentSecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	EnvironmentSelector *v2.Selector `json:"environmentSelector,omitempty" tf:"-"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
-	// ID of the public key used to encrypt the secret.
+	// (String) ID of the public key used to encrypt the secret. This is required when setting value_encrypted.
+	// ID of the public key used to encrypt the secret. This is required when setting `value_encrypted`.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// (DEPRECATED) Please use value.
+	// (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
 	// Plaintext value of the secret to be encrypted.
 	PlaintextValueSecretRef *v2.SecretKeySelector `json:"plaintextValueSecretRef,omitempty" tf:"-"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Repository
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
@@ -53,64 +53,65 @@ type EnvironmentSecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.
-	// Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
+	// (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
+	// Value encrypted with the GitHub public key, defined by `key_id`, in Base64 format.
 	ValueEncryptedSecretRef *v2.SecretKeySelector `json:"valueEncryptedSecretRef,omitempty" tf:"-"`
 
-	// Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.
+	// (String, Sensitive) Plaintext value to be encrypted.
 	// Plaintext value to be encrypted.
 	ValueSecretRef *v2.SecretKeySelector `json:"valueSecretRef,omitempty" tf:"-"`
 }
 
 type EnvironmentSecretObservation struct {
 
-	// Date the secret was created.
-	// Date of 'actions_environment_secret' creation.
+	// (String) Timestamp for when the secret was created.
+	// Timestamp for when the secret was created.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// Name of the environment.
+	// (String) Name of the environment.
 	// Name of the environment.
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
-	// ID of the public key used to encrypt the secret.
+	// (String) ID of the public key used to encrypt the secret. This is required when setting value_encrypted.
+	// ID of the public key used to encrypt the secret. This is required when setting `value_encrypted`.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// Date the secret was last updated in GitHub.
-	// Date of remote 'actions_environment_secret' update.
+	// (String) Timestamp for when the secret was last updated.
+	// Timestamp for when the secret was last updated.
 	RemoteUpdatedAt *string `json:"remoteUpdatedAt,omitempty" tf:"remote_updated_at,omitempty"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
-	// ID of the repository.
+	// (Number) ID of the repository.
 	// ID of the repository.
 	RepositoryID *int64 `json:"repositoryId,omitempty" tf:"repository_id,omitempty"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// Date the secret was last updated by the provider.
-	// Date of 'actions_environment_secret' update.
+	// (String) Timestamp for when the secret was last updated by the provider.
+	// Timestamp for when the secret was last updated by the provider.
 	UpdatedAt *string `json:"updatedAt,omitempty" tf:"updated_at,omitempty"`
 }
 
 type EnvironmentSecretParameters struct {
 
-	// (DEPRECATED) Please use value_encrypted.
+	// (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
 	// Encrypted value of the secret using the GitHub public key in Base64 format.
 	// +kubebuilder:validation:Optional
 	EncryptedValueSecretRef *v2.SecretKeySelector `json:"encryptedValueSecretRef,omitempty" tf:"-"`
 
-	// Name of the environment.
+	// (String) Name of the environment.
 	// Name of the environment.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Environment
 	// +kubebuilder:validation:Optional
@@ -124,17 +125,17 @@ type EnvironmentSecretParameters struct {
 	// +kubebuilder:validation:Optional
 	EnvironmentSelector *v2.Selector `json:"environmentSelector,omitempty" tf:"-"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
-	// ID of the public key used to encrypt the secret.
+	// (String) ID of the public key used to encrypt the secret. This is required when setting value_encrypted.
+	// ID of the public key used to encrypt the secret. This is required when setting `value_encrypted`.
 	// +kubebuilder:validation:Optional
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// (DEPRECATED) Please use value.
+	// (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
 	// Plaintext value of the secret to be encrypted.
 	// +kubebuilder:validation:Optional
 	PlaintextValueSecretRef *v2.SecretKeySelector `json:"plaintextValueSecretRef,omitempty" tf:"-"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Repository
 	// +kubebuilder:validation:Optional
@@ -148,17 +149,17 @@ type EnvironmentSecretParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	// +kubebuilder:validation:Optional
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.
-	// Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
+	// (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
+	// Value encrypted with the GitHub public key, defined by `key_id`, in Base64 format.
 	// +kubebuilder:validation:Optional
 	ValueEncryptedSecretRef *v2.SecretKeySelector `json:"valueEncryptedSecretRef,omitempty" tf:"-"`
 
-	// Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.
+	// (String, Sensitive) Plaintext value to be encrypted.
 	// Plaintext value to be encrypted.
 	// +kubebuilder:validation:Optional
 	ValueSecretRef *v2.SecretKeySelector `json:"valueSecretRef,omitempty" tf:"-"`
@@ -191,7 +192,7 @@ type EnvironmentSecretStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// EnvironmentSecret is the Schema for the EnvironmentSecrets API. Creates and manages an Action Secret within a GitHub repository environment
+// EnvironmentSecret is the Schema for the EnvironmentSecrets API. Resource to manage a GitHub Actions secrets for a repository environment.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

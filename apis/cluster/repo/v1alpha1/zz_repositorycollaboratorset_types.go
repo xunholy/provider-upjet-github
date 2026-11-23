@@ -37,7 +37,7 @@ type IgnoreTeamParameters struct {
 
 type RepositoryCollaboratorSetInitParameters struct {
 
-	// (Block Set) Teams to ignore when managing repository collaborators. (see below for nested schema)
+	// (Block Set, Deprecated) Teams to ignore when managing repository collaborators. (see below for nested schema)
 	// Teams to ignore when managing repository collaborators.
 	IgnoreTeam []IgnoreTeamInitParameters `json:"ignoreTeam,omitempty" tf:"ignore_team,omitempty"`
 
@@ -68,7 +68,7 @@ type RepositoryCollaboratorSetObservation struct {
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (Block Set) Teams to ignore when managing repository collaborators. (see below for nested schema)
+	// (Block Set, Deprecated) Teams to ignore when managing repository collaborators. (see below for nested schema)
 	// Teams to ignore when managing repository collaborators.
 	IgnoreTeam []IgnoreTeamObservation `json:"ignoreTeam,omitempty" tf:"ignore_team,omitempty"`
 
@@ -100,7 +100,7 @@ type RepositoryCollaboratorSetObservation struct {
 
 type RepositoryCollaboratorSetParameters struct {
 
-	// (Block Set) Teams to ignore when managing repository collaborators. (see below for nested schema)
+	// (Block Set, Deprecated) Teams to ignore when managing repository collaborators. (see below for nested schema)
 	// Teams to ignore when managing repository collaborators.
 	// +kubebuilder:validation:Optional
 	IgnoreTeam []IgnoreTeamParameters `json:"ignoreTeam,omitempty" tf:"ignore_team,omitempty"`
@@ -247,7 +247,7 @@ type RepositoryCollaboratorSetStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// RepositoryCollaboratorSet is the Schema for the RepositoryCollaboratorSets API. Manage the complete set of collaborators (users and teams) for a GitHub repository.
+// RepositoryCollaboratorSet is the Schema for the RepositoryCollaboratorSets API. Resource to manage the complete set of collaborators (users and teams) for a repository.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

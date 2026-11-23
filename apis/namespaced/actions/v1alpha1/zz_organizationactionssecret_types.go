@@ -15,123 +15,124 @@ import (
 
 type OrganizationActionsSecretInitParameters struct {
 
-	// (DEPRECATED)  This is ignored as drift detection is built into the resource.
+	// (Boolean, Deprecated)
 	DestroyOnDrift *bool `json:"destroyOnDrift,omitempty" tf:"destroy_on_drift,omitempty"`
 
-	// (DEPRECATED) Please use value_encrypted.
+	// (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
 	// Encrypted value of the secret using the GitHub public key in Base64 format.
 	EncryptedValueSecretRef *v2.LocalSecretKeySelector `json:"encryptedValueSecretRef,omitempty" tf:"-"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
+	// (String) ID of the public key used to encrypt the secret.
 	// ID of the public key used to encrypt the secret.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// (DEPRECATED) Please use value.
+	// (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
 	// Plaintext value of the secret to be encrypted.
 	PlaintextValueSecretRef *v2.LocalSecretKeySelector `json:"plaintextValueSecretRef,omitempty" tf:"-"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.
+	// (Set of Number, Deprecated) An array of repository IDs that can access the organization secret.
 	// An array of repository IDs that can access the organization secret.
 	// +listType=set
 	SelectedRepositoryIds []*int64 `json:"selectedRepositoryIds,omitempty" tf:"selected_repository_ids,omitempty"`
 
-	// Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.
+	// (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
 	// Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
 	ValueEncryptedSecretRef *v2.LocalSecretKeySelector `json:"valueEncryptedSecretRef,omitempty" tf:"-"`
 
-	// Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.
+	// (String, Sensitive) Plaintext value to be encrypted.
 	// Plaintext value to be encrypted.
 	ValueSecretRef *v2.LocalSecretKeySelector `json:"valueSecretRef,omitempty" tf:"-"`
 
-	// Configures the access that repositories have to the organization secret; must be one of all, private, or selected.
+	// (String) Configures the access that repositories have to the organization secret. Must be one of 'all', 'private', or 'selected'.
 	// Configures the access that repositories have to the organization secret. Must be one of 'all', 'private', or 'selected'.
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
 }
 
 type OrganizationActionsSecretObservation struct {
 
-	// Date the secret was created.
-	// Date of secret creation.
+	// (String) Timestamp for when the secret was created.
+	// Timestamp for when the secret was created.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// (DEPRECATED)  This is ignored as drift detection is built into the resource.
+	// (Boolean, Deprecated)
 	DestroyOnDrift *bool `json:"destroyOnDrift,omitempty" tf:"destroy_on_drift,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
+	// (String) ID of the public key used to encrypt the secret.
 	// ID of the public key used to encrypt the secret.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// Date the secret was last updated in GitHub.
-	// Date of secret update at the remote.
+	// (String) Timestamp for when the secret was last updated.
+	// Timestamp for when the secret was last updated.
 	RemoteUpdatedAt *string `json:"remoteUpdatedAt,omitempty" tf:"remote_updated_at,omitempty"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.
+	// (Set of Number, Deprecated) An array of repository IDs that can access the organization secret.
 	// An array of repository IDs that can access the organization secret.
 	// +listType=set
 	SelectedRepositoryIds []*int64 `json:"selectedRepositoryIds,omitempty" tf:"selected_repository_ids,omitempty"`
 
-	// Date the secret was last updated by the provider.
-	// Date of secret update.
+	// (String) Timestamp for when the secret was last updated by the provider.
+	// Timestamp for when the secret was last updated by the provider.
 	UpdatedAt *string `json:"updatedAt,omitempty" tf:"updated_at,omitempty"`
 
-	// Configures the access that repositories have to the organization secret; must be one of all, private, or selected.
+	// (String) Configures the access that repositories have to the organization secret. Must be one of 'all', 'private', or 'selected'.
 	// Configures the access that repositories have to the organization secret. Must be one of 'all', 'private', or 'selected'.
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
 }
 
 type OrganizationActionsSecretParameters struct {
 
-	// (DEPRECATED)  This is ignored as drift detection is built into the resource.
+	// (Boolean, Deprecated)
 	// +kubebuilder:validation:Optional
 	DestroyOnDrift *bool `json:"destroyOnDrift,omitempty" tf:"destroy_on_drift,omitempty"`
 
-	// (DEPRECATED) Please use value_encrypted.
+	// (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
 	// Encrypted value of the secret using the GitHub public key in Base64 format.
 	// +kubebuilder:validation:Optional
 	EncryptedValueSecretRef *v2.LocalSecretKeySelector `json:"encryptedValueSecretRef,omitempty" tf:"-"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
+	// (String) ID of the public key used to encrypt the secret.
 	// ID of the public key used to encrypt the secret.
 	// +kubebuilder:validation:Optional
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// (DEPRECATED) Please use value.
+	// (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
 	// Plaintext value of the secret to be encrypted.
 	// +kubebuilder:validation:Optional
 	PlaintextValueSecretRef *v2.LocalSecretKeySelector `json:"plaintextValueSecretRef,omitempty" tf:"-"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	// +kubebuilder:validation:Optional
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.
+	// (Set of Number, Deprecated) An array of repository IDs that can access the organization secret.
 	// An array of repository IDs that can access the organization secret.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SelectedRepositoryIds []*int64 `json:"selectedRepositoryIds,omitempty" tf:"selected_repository_ids,omitempty"`
 
-	// Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.
+	// (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
 	// Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
 	// +kubebuilder:validation:Optional
 	ValueEncryptedSecretRef *v2.LocalSecretKeySelector `json:"valueEncryptedSecretRef,omitempty" tf:"-"`
 
-	// Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.
+	// (String, Sensitive) Plaintext value to be encrypted.
 	// Plaintext value to be encrypted.
 	// +kubebuilder:validation:Optional
 	ValueSecretRef *v2.LocalSecretKeySelector `json:"valueSecretRef,omitempty" tf:"-"`
 
-	// Configures the access that repositories have to the organization secret; must be one of all, private, or selected.
+	// (String) Configures the access that repositories have to the organization secret. Must be one of 'all', 'private', or 'selected'.
 	// Configures the access that repositories have to the organization secret. Must be one of 'all', 'private', or 'selected'.
 	// +kubebuilder:validation:Optional
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
@@ -164,7 +165,7 @@ type OrganizationActionsSecretStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// OrganizationActionsSecret is the Schema for the OrganizationActionsSecrets API. Creates and manages an Action Secret within a GitHub organization
+// OrganizationActionsSecret is the Schema for the OrganizationActionsSecrets API. Resource to manage a GitHub Actions secret for an organization.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

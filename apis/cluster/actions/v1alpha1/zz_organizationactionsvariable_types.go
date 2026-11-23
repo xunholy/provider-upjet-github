@@ -15,73 +15,74 @@ import (
 
 type OrganizationActionsVariableInitParameters struct {
 
-	// An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.
+	// (Set of Number) An array of repository ids that can access the organization variable.
 	// An array of repository ids that can access the organization variable.
 	// +listType=set
 	SelectedRepositoryIds []*int64 `json:"selectedRepositoryIds,omitempty" tf:"selected_repository_ids,omitempty"`
 
-	// Value of the variable.
+	// (String) Value of the variable.
 	// Value of the variable.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
-	// Name of the variable.
+	// (String) Name of the variable.
 	// Name of the variable.
 	VariableName *string `json:"variableName,omitempty" tf:"variable_name,omitempty"`
 
-	// Configures the access that repositories have to the organization variable; must be one of all, private, or selected.
+	// (String) Configures the access that repositories have to the organization variable. Must be one of 'all', 'private', or 'selected'. 'selected_repository_ids' is required if set to 'selected'.
 	// Configures the access that repositories have to the organization variable. Must be one of 'all', 'private', or 'selected'. 'selected_repository_ids' is required if set to 'selected'.
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
 }
 
 type OrganizationActionsVariableObservation struct {
 
-	// Date the variable was created.
-	// Date of 'actions_variable' creation.
+	// (String) Timestamp of when the variable was created.
+	// Timestamp of when the variable was created.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.
+	// (Set of Number) An array of repository ids that can access the organization variable.
 	// An array of repository ids that can access the organization variable.
 	// +listType=set
 	SelectedRepositoryIds []*int64 `json:"selectedRepositoryIds,omitempty" tf:"selected_repository_ids,omitempty"`
 
-	// Date the variable was last updated.
-	// Date of 'actions_variable' update.
+	// (String) Timestamp of when the variable was last updated.
+	// Timestamp of when the variable was last updated.
 	UpdatedAt *string `json:"updatedAt,omitempty" tf:"updated_at,omitempty"`
 
-	// Value of the variable.
+	// (String) Value of the variable.
 	// Value of the variable.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
-	// Name of the variable.
+	// (String) Name of the variable.
 	// Name of the variable.
 	VariableName *string `json:"variableName,omitempty" tf:"variable_name,omitempty"`
 
-	// Configures the access that repositories have to the organization variable; must be one of all, private, or selected.
+	// (String) Configures the access that repositories have to the organization variable. Must be one of 'all', 'private', or 'selected'. 'selected_repository_ids' is required if set to 'selected'.
 	// Configures the access that repositories have to the organization variable. Must be one of 'all', 'private', or 'selected'. 'selected_repository_ids' is required if set to 'selected'.
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
 }
 
 type OrganizationActionsVariableParameters struct {
 
-	// An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.
+	// (Set of Number) An array of repository ids that can access the organization variable.
 	// An array of repository ids that can access the organization variable.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SelectedRepositoryIds []*int64 `json:"selectedRepositoryIds,omitempty" tf:"selected_repository_ids,omitempty"`
 
-	// Value of the variable.
+	// (String) Value of the variable.
 	// Value of the variable.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
-	// Name of the variable.
+	// (String) Name of the variable.
 	// Name of the variable.
 	// +kubebuilder:validation:Optional
 	VariableName *string `json:"variableName,omitempty" tf:"variable_name,omitempty"`
 
-	// Configures the access that repositories have to the organization variable; must be one of all, private, or selected.
+	// (String) Configures the access that repositories have to the organization variable. Must be one of 'all', 'private', or 'selected'. 'selected_repository_ids' is required if set to 'selected'.
 	// Configures the access that repositories have to the organization variable. Must be one of 'all', 'private', or 'selected'. 'selected_repository_ids' is required if set to 'selected'.
 	// +kubebuilder:validation:Optional
 	Visibility *string `json:"visibility,omitempty" tf:"visibility,omitempty"`
@@ -114,7 +115,7 @@ type OrganizationActionsVariableStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// OrganizationActionsVariable is the Schema for the OrganizationActionsVariables API. Creates and manages an Action variable within a GitHub organization
+// OrganizationActionsVariable is the Schema for the OrganizationActionsVariables API. Resource to manage a GitHub Actions variable for an organization.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

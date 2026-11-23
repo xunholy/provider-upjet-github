@@ -15,7 +15,7 @@ import (
 
 type EnvironmentVariableInitParameters struct {
 
-	// Name of the environment.
+	// (String) Name of the environment.
 	// Name of the environment.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Environment
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
@@ -28,7 +28,7 @@ type EnvironmentVariableInitParameters struct {
 	// +kubebuilder:validation:Optional
 	EnvironmentSelector *v2.Selector `json:"environmentSelector,omitempty" tf:"-"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Repository
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
@@ -41,51 +41,52 @@ type EnvironmentVariableInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
-	// Value of the variable.
+	// (String) Value of the variable.
 	// Value of the variable.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
-	// Name of the variable.
+	// (String) Name of the variable.
 	// Name of the variable.
 	VariableName *string `json:"variableName,omitempty" tf:"variable_name,omitempty"`
 }
 
 type EnvironmentVariableObservation struct {
 
-	// Date the variable was created.
-	// Date of 'actions_variable' creation.
+	// (String) Timestamp for when the variable was created.
+	// Timestamp for when the variable was created.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// Name of the environment.
+	// (String) Name of the environment.
 	// Name of the environment.
 	Environment *string `json:"environment,omitempty" tf:"environment,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
-	// ID of the repository.
+	// (Number) ID of the repository.
 	// ID of the repository.
 	RepositoryID *int64 `json:"repositoryId,omitempty" tf:"repository_id,omitempty"`
 
-	// Date the variable was last updated.
-	// Date of 'actions_variable' update.
+	// (String) Timestamp for when the variable was last updated.
+	// Timestamp for when the variable was last updated.
 	UpdatedAt *string `json:"updatedAt,omitempty" tf:"updated_at,omitempty"`
 
-	// Value of the variable.
+	// (String) Value of the variable.
 	// Value of the variable.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
-	// Name of the variable.
+	// (String) Name of the variable.
 	// Name of the variable.
 	VariableName *string `json:"variableName,omitempty" tf:"variable_name,omitempty"`
 }
 
 type EnvironmentVariableParameters struct {
 
-	// Name of the environment.
+	// (String) Name of the environment.
 	// Name of the environment.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Environment
 	// +kubebuilder:validation:Optional
@@ -99,7 +100,7 @@ type EnvironmentVariableParameters struct {
 	// +kubebuilder:validation:Optional
 	EnvironmentSelector *v2.Selector `json:"environmentSelector,omitempty" tf:"-"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Repository
 	// +kubebuilder:validation:Optional
@@ -113,12 +114,12 @@ type EnvironmentVariableParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
-	// Value of the variable.
+	// (String) Value of the variable.
 	// Value of the variable.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 
-	// Name of the variable.
+	// (String) Name of the variable.
 	// Name of the variable.
 	// +kubebuilder:validation:Optional
 	VariableName *string `json:"variableName,omitempty" tf:"variable_name,omitempty"`
@@ -151,7 +152,7 @@ type EnvironmentVariableStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// EnvironmentVariable is the Schema for the EnvironmentVariables API. Creates and manages an Action variable within a GitHub repository environment
+// EnvironmentVariable is the Schema for the EnvironmentVariables API. Resource to manage a GitHub Actions environment variable for a repository environment.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

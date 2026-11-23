@@ -15,32 +15,32 @@ import (
 
 type ReleaseInitParameters struct {
 
-	// Text describing the contents of the tag.
+	// (String) Text describing the contents of the tag.
 	// Text describing the contents of the tag.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
-	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see Managing categories for discussions in your repository.
-	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository.
+	// (String) If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
+	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
 	DiscussionCategoryName *string `json:"discussionCategoryName,omitempty" tf:"discussion_category_name,omitempty"`
 
-	// Set to false to create a published release.
-	// Set to 'false' to create a published release.
+	// (Boolean) Set to false to create a published release.
+	// Set to `false` to create a published release.
 	Draft *bool `json:"draft,omitempty" tf:"draft,omitempty"`
 
-	// Set to true to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
-	// Set to 'true' to automatically generate the name and body for this release. If 'name' is specified, the specified name will be used; otherwise, a name will be automatically generated. If 'body' is specified, the body will be pre-pended to the automatically generated notes.
+	// pended to the automatically generated notes.
+	// Set to `true` to automatically generate the name and body for this release when it is created. If `name` is specified, the specified name will be used; otherwise, a name will be automatically generated. If `body` is specified, the body will be pre-pended to the automatically generated notes.
 	GenerateReleaseNotes *bool `json:"generateReleaseNotes,omitempty" tf:"generate_release_notes,omitempty"`
 
-	// The name of the release.
+	// (String) The name of the release.
 	// The name of the release.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Set to false to identify the release as a full release.
-	// Set to 'false' to identify the release as a full release.
+	// (Boolean) Set to false to identify the release as a full release.
+	// Set to `false` to identify the release as a full release.
 	Prerelease *bool `json:"prerelease,omitempty" tf:"prerelease,omitempty"`
 
-	// The name of the repository.
-	// The name of the repository.
+	// (String) Name of the repository.
+	// Name of the repository.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Repository
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
@@ -52,12 +52,12 @@ type ReleaseInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v2.NamespacedSelector `json:"repositorySelector,omitempty" tf:"-"`
 
-	// The name of the tag.
-	// The name of the tag.
+	// (String) Name of the tag.
+	// Name of the tag.
 	TagName *string `json:"tagName,omitempty" tf:"tag_name,omitempty"`
 
-	// The branch name or commit SHA the tag is created from. Defaults to the default branch of the repository.
-	// The branch name or commit SHA the tag is created from.
+	// (String) The branch name or commit SHA the tag is created from; this defaults to main.
+	// The branch name or commit SHA the tag is created from; this defaults to `main`.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Branch
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("branch",false)
 	TargetCommitish *string `json:"targetCommitish,omitempty" tf:"target_commitish,omitempty"`
@@ -73,121 +73,128 @@ type ReleaseInitParameters struct {
 
 type ReleaseObservation struct {
 
-	// URL that can be provided to API calls displaying the attached assets to this release.
+	// (String) The URL for the release assets.
 	// The URL for the release assets.
 	AssetsURL *string `json:"assetsUrl,omitempty" tf:"assets_url,omitempty"`
 
-	// Text describing the contents of the tag.
+	// (String) Text describing the contents of the tag.
 	// Text describing the contents of the tag.
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
-	// This is the date of the commit used for the release, and not the date when the release was drafted or published.
+	// (String) The date and time the release was created.
 	// The date and time the release was created.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see Managing categories for discussions in your repository.
-	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository.
+	// (String) If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
+	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
 	DiscussionCategoryName *string `json:"discussionCategoryName,omitempty" tf:"discussion_category_name,omitempty"`
 
-	// Set to false to create a published release.
-	// Set to 'false' to create a published release.
+	// (Boolean) Set to false to create a published release.
+	// Set to `false` to create a published release.
 	Draft *bool `json:"draft,omitempty" tf:"draft,omitempty"`
 
+	// (String) The ETag of the release.
+	// The ETag of the release.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
-	// Set to true to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
-	// Set to 'true' to automatically generate the name and body for this release. If 'name' is specified, the specified name will be used; otherwise, a name will be automatically generated. If 'body' is specified, the body will be pre-pended to the automatically generated notes.
+	// pended to the automatically generated notes.
+	// Set to `true` to automatically generate the name and body for this release when it is created. If `name` is specified, the specified name will be used; otherwise, a name will be automatically generated. If `body` is specified, the body will be pre-pended to the automatically generated notes.
 	GenerateReleaseNotes *bool `json:"generateReleaseNotes,omitempty" tf:"generate_release_notes,omitempty"`
 
-	// URL of the release in GitHub.
+	// (String) The HTML URL for the release.
 	// The HTML URL for the release.
 	HTMLURL *string `json:"htmlUrl,omitempty" tf:"html_url,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The name of the release.
+	// (String) The name of the release.
 	// The name of the release.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// GraphQL global node id for use with v4 API
+	// (String) The node ID of the release.
 	// The node ID of the release.
 	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
 
-	// Set to false to identify the release as a full release.
-	// Set to 'false' to identify the release as a full release.
+	// (Boolean) Set to false to identify the release as a full release.
+	// Set to `false` to identify the release as a full release.
 	Prerelease *bool `json:"prerelease,omitempty" tf:"prerelease,omitempty"`
 
-	// This is the date when the release was published. This will be empty if the release is a draft.
+	// (String) The date and time the release was published.
 	// The date and time the release was published.
 	PublishedAt *string `json:"publishedAt,omitempty" tf:"published_at,omitempty"`
 
-	// The ID of the release.
+	// (Number) The ID of the release.
 	// The ID of the release.
 	ReleaseID *int64 `json:"releaseId,omitempty" tf:"release_id,omitempty"`
 
-	// The name of the repository.
-	// The name of the repository.
+	// (String) Name of the repository.
+	// Name of the repository.
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
-	// The name of the tag.
-	// The name of the tag.
+	// (Number) ID of the repository.
+	// ID of the repository.
+	RepositoryID *int64 `json:"repositoryId,omitempty" tf:"repository_id,omitempty"`
+
+	// (String) Name of the tag.
+	// Name of the tag.
 	TagName *string `json:"tagName,omitempty" tf:"tag_name,omitempty"`
 
-	// URL that can be provided to API calls to fetch the release TAR archive.
+	// (String) The URL for the tarball of the release.
 	// The URL for the tarball of the release.
 	TarballURL *string `json:"tarballUrl,omitempty" tf:"tarball_url,omitempty"`
 
-	// The branch name or commit SHA the tag is created from. Defaults to the default branch of the repository.
-	// The branch name or commit SHA the tag is created from.
+	// (String) The branch name or commit SHA the tag is created from; this defaults to main.
+	// The branch name or commit SHA the tag is created from; this defaults to `main`.
 	TargetCommitish *string `json:"targetCommitish,omitempty" tf:"target_commitish,omitempty"`
 
-	// URL that can be provided to API calls that reference this release.
+	// (String) The URL for the release.
 	// The URL for the release.
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
 
-	// URL that can be provided to API calls to upload assets.
+	// (String) The URL for the uploaded assets of release.
 	// The URL for the uploaded assets of release.
 	UploadURL *string `json:"uploadUrl,omitempty" tf:"upload_url,omitempty"`
 
-	// URL that can be provided to API calls to fetch the release ZIP archive.
+	// (String) The URL for the zipball of the release.
 	// The URL for the zipball of the release.
 	ZipballURL *string `json:"zipballUrl,omitempty" tf:"zipball_url,omitempty"`
 }
 
 type ReleaseParameters struct {
 
-	// Text describing the contents of the tag.
+	// (String) Text describing the contents of the tag.
 	// Text describing the contents of the tag.
 	// +kubebuilder:validation:Optional
 	Body *string `json:"body,omitempty" tf:"body,omitempty"`
 
-	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see Managing categories for discussions in your repository.
-	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository.
+	// (String) If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
+	// If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
 	// +kubebuilder:validation:Optional
 	DiscussionCategoryName *string `json:"discussionCategoryName,omitempty" tf:"discussion_category_name,omitempty"`
 
-	// Set to false to create a published release.
-	// Set to 'false' to create a published release.
+	// (Boolean) Set to false to create a published release.
+	// Set to `false` to create a published release.
 	// +kubebuilder:validation:Optional
 	Draft *bool `json:"draft,omitempty" tf:"draft,omitempty"`
 
-	// Set to true to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
-	// Set to 'true' to automatically generate the name and body for this release. If 'name' is specified, the specified name will be used; otherwise, a name will be automatically generated. If 'body' is specified, the body will be pre-pended to the automatically generated notes.
+	// pended to the automatically generated notes.
+	// Set to `true` to automatically generate the name and body for this release when it is created. If `name` is specified, the specified name will be used; otherwise, a name will be automatically generated. If `body` is specified, the body will be pre-pended to the automatically generated notes.
 	// +kubebuilder:validation:Optional
 	GenerateReleaseNotes *bool `json:"generateReleaseNotes,omitempty" tf:"generate_release_notes,omitempty"`
 
-	// The name of the release.
+	// (String) The name of the release.
 	// The name of the release.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Set to false to identify the release as a full release.
-	// Set to 'false' to identify the release as a full release.
+	// (Boolean) Set to false to identify the release as a full release.
+	// Set to `false` to identify the release as a full release.
 	// +kubebuilder:validation:Optional
 	Prerelease *bool `json:"prerelease,omitempty" tf:"prerelease,omitempty"`
 
-	// The name of the repository.
-	// The name of the repository.
+	// (String) Name of the repository.
+	// Name of the repository.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Repository
 	// +kubebuilder:validation:Optional
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
@@ -200,13 +207,13 @@ type ReleaseParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v2.NamespacedSelector `json:"repositorySelector,omitempty" tf:"-"`
 
-	// The name of the tag.
-	// The name of the tag.
+	// (String) Name of the tag.
+	// Name of the tag.
 	// +kubebuilder:validation:Optional
 	TagName *string `json:"tagName,omitempty" tf:"tag_name,omitempty"`
 
-	// The branch name or commit SHA the tag is created from. Defaults to the default branch of the repository.
-	// The branch name or commit SHA the tag is created from.
+	// (String) The branch name or commit SHA the tag is created from; this defaults to main.
+	// The branch name or commit SHA the tag is created from; this defaults to `main`.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/namespaced/repo/v1alpha1.Branch
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("branch",false)
 	// +kubebuilder:validation:Optional
@@ -248,7 +255,7 @@ type ReleaseStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Release is the Schema for the Releases API. Creates and manages releases within a single GitHub repository
+// Release is the Schema for the Releases API. Resource to manage a GitHub release.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

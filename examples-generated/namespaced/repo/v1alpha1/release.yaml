@@ -27,6 +27,5 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    description: GitHub repo managed by Terraform
+    autoInit: true
     name: repo
-    private: false

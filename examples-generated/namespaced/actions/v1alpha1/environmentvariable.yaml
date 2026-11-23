@@ -16,4 +16,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     value: example-value
-    variableName: example_variable_name
+    variableName: EXAMPLE_VARIABLE_NAME

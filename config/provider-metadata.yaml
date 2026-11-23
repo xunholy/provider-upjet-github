@@ -2,82 +2,66 @@ name: integrations/github
 resources:
     github_actions_environment_secret:
         subCategory: ""
-        description: Creates and manages an Action Secret within a GitHub repository environment
+        description: Resource to manage a GitHub Actions secrets for a repository environment.
         name: github_actions_environment_secret
         title: github_actions_environment_secret (Resource) - GitHub
         examples:
-            - name: example_plaintext
+            - name: example
               manifest: |-
                 {
                   "environment": "example-environment",
-                  "plaintext_value": "example-value",
                   "repository": "example-repo",
-                  "secret_name": "example_secret_name"
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value"
                 }
-            - name: example_encrypted
+            - name: example
               manifest: |-
                 {
-                  "encrypted_value": "${var.encrypted_secret_string}",
+                  "encrypted_value": "${var.encrypted_value}",
                   "environment": "example-environment",
-                  "key_id": "${var.key_id}",
+                  "key_id": "${data.github_actions_environment_public_key.example.key_id}",
                   "repository": "example-repo",
-                  "secret_name": "example_secret_name"
+                  "secret_name": "EXAMPLE_SECRET_NAME"
                 }
               references:
-                encrypted_value: var.encrypted_secret_string
-                key_id: var.key_id
-            - name: example_encrypted
-              manifest: |-
-                {
-                  "environment": "${github_repository_environment.example.environment}",
-                  "plaintext_value": "example-value",
-                  "repository": "${data.github_repository.example.name}",
-                  "secret_name": "test_secret_name"
-                }
-              references:
-                environment: github_repository_environment.example.environment
-                repository: data.github_repository.example.name
-              dependencies:
-                github_repository_environment.example_plaintext: |-
-                    {
-                      "environment": "example-environment",
-                      "repository": "${data.github_repository.example.name}"
-                    }
-            - name: example_allow_drift
+                encrypted_value: var.encrypted_value
+                key_id: data.github_actions_environment_public_key.example.key_id
+            - name: example
               manifest: |-
                 {
                   "environment": "example-environment",
                   "lifecycle": [
                     {
                       "ignore_changes": [
-                        "${remote_updated_at}"
+                        "${updated_at}"
                       ]
                     }
                   ],
-                  "plaintext_value": "placeholder",
                   "repository": "example-repo",
-                  "secret_name": "example_secret_name"
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value"
                 }
               references:
-                lifecycle.ignore_changes: remote_updated_at
+                lifecycle.ignore_changes: updated_at
         argumentDocs:
-            created_at: '- Date the secret was created.'
-            encrypted_value: '- (DEPRECATED)(Optional) Please use value_encrypted.'
-            environment: '- (Required) Name of the environment.'
-            key_id: '- (Optional) ID of the public key used to encrypt the secret, required when setting encrypted_value.'
-            plaintext_value: '- (DEPRECATED)(Optional) Please use value.'
-            remote_updated_at: '- Date the secret was last updated in GitHub.'
-            repository: '- (Required) Name of the repository.'
-            repository_id: '- ID of the repository.'
-            secret_name: '- (Required) Name of the secret.'
-            updated_at: '- Date the secret was last updated by the provider.'
-            value: '- (Optional) Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.'
-            value_encrypted: '- (Optional) Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.'
+            created_at: (String) Timestamp for when the secret was created.
+            encrypted_value: (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
+            environment: (String) Name of the environment.
+            id: (String) The ID of this resource.
+            key_id: (String) ID of the public key used to encrypt the secret. This is required when setting value_encrypted.
+            plaintext_value: (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
+            remote_updated_at: (String) Timestamp for when the secret was last updated.
+            repository: (String) Name of the repository.
+            repository_id: (Number) ID of the repository.
+            secret_name: (String) Name of the secret.
+            updated_at: (String) Timestamp for when the secret was last updated by the provider.
+            value: (String, Sensitive) Plaintext value to be encrypted.
+            value_encrypted: (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
         importStatements:
-            - terraform import github_actions_environment_secret.example myrepo:myenv:mysecret
+            - terraform import github_actions_environment_secret.example repo-name:environment-name:secret-name
     github_actions_environment_variable:
         subCategory: ""
-        description: Creates and manages an Action variable within a GitHub repository environment
+        description: Resource to manage a GitHub Actions environment variable for a repository environment.
         name: github_actions_environment_variable
         title: github_actions_environment_variable (Resource) - GitHub
         examples:
@@ -87,35 +71,19 @@ resources:
                   "environment": "example-environment",
                   "repository": "example-repo",
                   "value": "example-value",
-                  "variable_name": "example_variable_name"
+                  "variable_name": "EXAMPLE_VARIABLE_NAME"
                 }
-            - name: example
-              manifest: |-
-                {
-                  "environment": "${github_repository_environment.example.environment}",
-                  "repository": "${data.github_repository.example.name}",
-                  "value": "example-value",
-                  "variable_name": "example_variable_name"
-                }
-              references:
-                environment: github_repository_environment.example.environment
-                repository: data.github_repository.example.name
-              dependencies:
-                github_repository_environment.example: |-
-                    {
-                      "environment": "example_environment",
-                      "repository": "${data.github_repository.example.name}"
-                    }
         argumentDocs:
-            created_at: '- Date the variable was created.'
-            environment: '- (Required) Name of the environment.'
-            repository: '- (Required) Name of the repository.'
-            repository_id: '- ID of the repository.'
-            updated_at: '- Date the variable was last updated.'
-            value: '- (Required) Value of the variable.'
-            variable_name: '- (Required) Name of the variable.'
+            created_at: (String) Timestamp for when the variable was created.
+            environment: (String) Name of the environment.
+            id: (String) The ID of this resource.
+            repository: (String) Name of the repository.
+            repository_id: (Number) ID of the repository.
+            updated_at: (String) Timestamp for when the variable was last updated.
+            value: (String) Value of the variable.
+            variable_name: (String) Name of the variable.
         importStatements:
-            - terraform import github_actions_environment_variable.example myrepo:myenv:myvariable
+            - terraform import github_actions_environment_variable.example repo-name:environment-name:variable-name
     github_actions_hosted_runner:
         subCategory: ""
         description: Creates and manages GitHub-hosted runners within a GitHub organization
@@ -280,85 +248,75 @@ resources:
             - terraform import github_actions_organization_permissions.test github_organization_name
     github_actions_organization_secret:
         subCategory: ""
-        description: Creates and manages an Action Secret within a GitHub organization
+        description: Resource to manage a GitHub Actions secret for an organization.
         name: github_actions_organization_secret
         title: github_actions_organization_secret (Resource) - GitHub
         examples:
-            - name: example_plaintext
+            - name: example
               manifest: |-
                 {
-                  "plaintext_value": "${var.some_secret_string}",
-                  "secret_name": "example_secret_name",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value",
+                  "visibility": "all"
+                }
+            - name: example
+              manifest: |-
+                {
+                  "encrypted_value": "${var.encrypted_value}",
+                  "key_id": "${data.github_actions_organization_public_key.example.key_id}",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
                   "visibility": "all"
                 }
               references:
-                plaintext_value: var.some_secret_string
-            - name: example_encrypted
-              manifest: |-
-                {
-                  "encrypted_value": "${var.some_encrypted_secret_string}",
-                  "secret_name": "example_secret_name",
-                  "visibility": "all"
-                }
-              references:
-                encrypted_value: var.some_encrypted_secret_string
-            - name: example_encrypted
-              manifest: |-
-                {
-                  "plaintext_value": "${var.some_secret_string}",
-                  "secret_name": "example_secret_name",
-                  "selected_repository_ids": [
-                    "${data.github_repository.repo.repo_id}"
-                  ],
-                  "visibility": "selected"
-                }
-              references:
-                plaintext_value: var.some_secret_string
-                selected_repository_ids: data.github_repository.repo.repo_id
-            - name: example_secret
-              manifest: |-
-                {
-                  "encrypted_value": "${var.some_encrypted_secret_string}",
-                  "secret_name": "example_secret_name",
-                  "selected_repository_ids": [
-                    "${data.github_repository.repo.repo_id}"
-                  ],
-                  "visibility": "selected"
-                }
-              references:
-                encrypted_value: var.some_encrypted_secret_string
-                selected_repository_ids: data.github_repository.repo.repo_id
-            - name: example_allow_drift
+                encrypted_value: var.encrypted_value
+                key_id: data.github_actions_organization_public_key.example.key_id
+            - name: example
               manifest: |-
                 {
                   "lifecycle": [
                     {
                       "ignore_changes": [
-                        "${remote_updated_at}"
+                        "${updated_at}"
                       ]
                     }
                   ],
-                  "plaintext_value": "placeholder",
-                  "secret_name": "example_secret_name",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value",
                   "visibility": "all"
                 }
               references:
-                lifecycle.ignore_changes: remote_updated_at
+                lifecycle.ignore_changes: updated_at
+            - name: example
+              manifest: |-
+                {
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value",
+                  "visibility": "selected"
+                }
+              dependencies:
+                github_actions_organization_secret_repositories.example: |-
+                    {
+                      "secret_name": "${github_actions_organization_secret.example.secret_name}",
+                      "selected_repository_ids": [
+                        "${data.github_repository.example.repo_id}"
+                      ]
+                    }
         argumentDocs:
-            created_at: '- Date the secret was created.'
-            destroy_on_drift: '- (DEPRECATED) (Optional) This is ignored as drift detection is built into the resource.'
-            encrypted_value: '- (DEPRECATED)(Optional) Please use value_encrypted.'
-            key_id: '- (Optional) ID of the public key used to encrypt the secret, required when setting encrypted_value.'
-            plaintext_value: '- (DEPRECATED)(Optional) Please use value.'
-            remote_updated_at: '- Date the secret was last updated in GitHub.'
-            secret_name: '- (Required) Name of the secret.'
-            selected_repository_ids: '- (Optional) An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.'
-            updated_at: '- Date the secret was last updated by the provider.'
-            value: '- (Optional) Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.'
-            value_encrypted: '- (Optional) Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.'
-            visibility: '- (Required) Configures the access that repositories have to the organization secret; must be one of all, private, or selected.'
+            created_at: (String) Timestamp for when the secret was created.
+            destroy_on_drift: (Boolean, Deprecated)
+            encrypted_value: (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
+            id: (String) The ID of this resource.
+            key_id: (String) ID of the public key used to encrypt the secret.
+            plaintext_value: (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
+            remote_updated_at: (String) Timestamp for when the secret was last updated.
+            secret_name: (String) Name of the secret.
+            selected_repository_ids: (Set of Number, Deprecated) An array of repository IDs that can access the organization secret.
+            updated_at: (String) Timestamp for when the secret was last updated by the provider.
+            value: (String, Sensitive) Plaintext value to be encrypted.
+            value_encrypted: (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
+            visibility: (String) Configures the access that repositories have to the organization secret. Must be one of 'all', 'private', or 'selected'.
         importStatements:
-            - terraform import github_actions_organization_secret.example mysecret
+            - terraform import github_actions_organization_secret.example secret-name
     github_actions_organization_secret_repositories:
         subCategory: ""
         description: Manages repository allow list for an Actions Secret within a GitHub organization.
@@ -427,38 +385,42 @@ resources:
             - terraform import github_actions_organization_secret_repository.example mysecret:123456
     github_actions_organization_variable:
         subCategory: ""
-        description: Creates and manages an Action variable within a GitHub organization
+        description: Resource to manage a GitHub Actions variable for an organization.
         name: github_actions_organization_variable
         title: github_actions_organization_variable (Resource) - GitHub
         examples:
-            - name: example_variable
+            - name: example
               manifest: |-
                 {
-                  "value": "example_variable_value",
-                  "variable_name": "example_variable_name",
-                  "visibility": "private"
+                  "value": "example-value",
+                  "variable_name": "EXAMPLE_VARIABLE_NAME",
+                  "visibility": "all"
                 }
-            - name: example_variable
+            - name: example
               manifest: |-
                 {
-                  "selected_repository_ids": [
-                    "${data.github_repository.repo.repo_id}"
-                  ],
-                  "value": "example_variable_value",
-                  "variable_name": "example_variable_name",
+                  "value": "example-value",
+                  "variable_name": "EXAMPLE_VARIABLE_NAME",
                   "visibility": "selected"
                 }
-              references:
-                selected_repository_ids: data.github_repository.repo.repo_id
+              dependencies:
+                github_actions_organization_variable_repositories.example: |-
+                    {
+                      "selected_repository_ids": [
+                        "${data.github_repository.example.repo_id}"
+                      ],
+                      "variable_name": "${github_actions_organization_variable.example.variable_name}"
+                    }
         argumentDocs:
-            created_at: '- Date the variable was created.'
-            selected_repository_ids: '- (Optional) An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.'
-            updated_at: '- Date the variable was last updated.'
-            value: '- (Required) Value of the variable.'
-            variable_name: '- (Required) Name of the variable.'
-            visibility: '- (Required) Configures the access that repositories have to the organization variable; must be one of all, private, or selected.'
+            created_at: (String) Timestamp of when the variable was created.
+            id: (String) The ID of this resource.
+            selected_repository_ids: (Set of Number) An array of repository ids that can access the organization variable.
+            updated_at: (String) Timestamp of when the variable was last updated.
+            value: (String) Value of the variable.
+            variable_name: (String) Name of the variable.
+            visibility: (String) Configures the access that repositories have to the organization variable. Must be one of 'all', 'private', or 'selected'. 'selected_repository_ids' is required if set to 'selected'.
         importStatements:
-            - terraform import github_actions_organization_variable.example myvariable
+            - terraform import github_actions_organization_variable.example variable-name
     github_actions_organization_variable_repositories:
         subCategory: ""
         description: Manages repository allow list for an Actions Variable within a GitHub organization.
@@ -684,81 +646,83 @@ resources:
             - terraform import github_actions_runner_group.test 7
     github_actions_secret:
         subCategory: ""
-        description: Creates and manages an Action Secret within a GitHub repository
+        description: Resource to manage a GitHub Actions secret for a repository.
         name: github_actions_secret
         title: github_actions_secret (Resource) - GitHub
         examples:
-            - name: example_plaintext
+            - name: example
               manifest: |-
                 {
-                  "plaintext_value": "${var.some_secret_string}",
-                  "repository": "example_repository",
-                  "secret_name": "example_secret_name"
+                  "repository": "example-repo",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value"
                 }
-              references:
-                plaintext_value: var.some_secret_string
-            - name: example_encrypted
+            - name: example
               manifest: |-
                 {
-                  "encrypted_value": "${var.some_encrypted_secret_string}",
-                  "repository": "example_repository",
-                  "secret_name": "example_secret_name"
+                  "encrypted_value": "${var.encrypted_value}",
+                  "key_id": "${data.github_actions_public_key.example.key_id}",
+                  "repository": "example-repo",
+                  "secret_name": "EXAMPLE_SECRET_NAME"
                 }
               references:
-                encrypted_value: var.some_encrypted_secret_string
-            - name: example_allow_drift
+                encrypted_value: var.encrypted_value
+                key_id: data.github_actions_public_key.example.key_id
+            - name: example
               manifest: |-
                 {
                   "lifecycle": [
                     {
                       "ignore_changes": [
-                        "${remote_updated_at}"
+                        "${updated_at}"
                       ]
                     }
                   ],
-                  "plaintext_value": "placeholder",
-                  "repository": "example_repository",
-                  "secret_name": "example_secret_name"
+                  "repository": "example-repo",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value"
                 }
               references:
-                lifecycle.ignore_changes: remote_updated_at
+                lifecycle.ignore_changes: updated_at
         argumentDocs:
-            created_at: '- Date the secret was created.'
-            destroy_on_drift: '- (DEPRECATED) (Optional) This is ignored as drift detection is built into the resource.'
-            encrypted_value: '- (DEPRECATED)(Optional) Please use value_encrypted.'
-            key_id: '- (Optional) ID of the public key used to encrypt the secret, required when setting encrypted_value.'
-            plaintext_value: '- (DEPRECATED)(Optional) Please use value.'
-            remote_updated_at: '- Date the secret was last updated in GitHub.'
-            repository: '- (Required) Name of the repository.'
-            repository_id: '- ID of the repository.'
-            secret_name: '- (Required) Name of the secret.'
-            updated_at: '- Date the secret was last updated by the provider.'
-            value: '- (Optional) Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.'
-            value_encrypted: '- (Optional) Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.'
+            created_at: (String) Timestamp of when the secret was created.
+            destroy_on_drift: (Boolean, Deprecated)
+            encrypted_value: (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
+            id: (String) The ID of this resource.
+            key_id: (String) ID of the public key used to encrypt the secret.
+            plaintext_value: (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
+            remote_updated_at: (String) Timestamp for when the secret was last updated.
+            repository: (String) Name of the repository.
+            repository_id: (Number) ID of the repository.
+            secret_name: (String) Name of the secret.
+            updated_at: (String) Timestamp of when the secret was last updated by the provider.
+            value: (String, Sensitive) Plaintext value to be encrypted.
+            value_encrypted: (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
         importStatements:
-            - terraform import github_actions_secret.example myrepo:mysecret
+            - terraform import github_actions_secret.example repo-name:secret-name
     github_actions_variable:
         subCategory: ""
-        description: Creates and manages an Action variable within a GitHub repository
+        description: Resource to manage a GitHub Actions variable for a repository.
         name: github_actions_variable
         title: github_actions_variable (Resource) - GitHub
         examples:
-            - name: example_variable
+            - name: example
               manifest: |-
                 {
-                  "repository": "example_repository",
-                  "value": "example_variable_value",
-                  "variable_name": "example_variable_name"
+                  "repository": "example-repo",
+                  "value": "example-value",
+                  "variable_name": "EXAMPLE_VARIABLE_NAME"
                 }
         argumentDocs:
-            created_at: '- Date the variable was created.'
-            repository: '- (Required) Name of the repository.'
-            repository_id: '- ID of the repository.'
-            updated_at: '- Date the variable was last updated.'
-            value: '- (Required) Value of the variable.'
-            variable_name: '- (Required) Name of the variable.'
+            created_at: (String) Timestamp for when the variable was created.
+            id: (String) The ID of this resource.
+            repository: (String) Name of the repository.
+            repository_id: (Number) ID of the repository.
+            updated_at: (String) Timestamp for when the variable was last updated.
+            value: (String) Value of the variable.
+            variable_name: (String) Name of the variable.
         importStatements:
-            - terraform import github_actions_variable.example myrepo:myvariable
+            - terraform import github_actions_variable.example repo-name:variable-name
     github_app_installation_repositories:
         subCategory: ""
         description: Manages the associations between app installations and repositories.
@@ -1260,84 +1224,74 @@ resources:
         importStatements: []
     github_dependabot_organization_secret:
         subCategory: ""
-        description: Creates and manages an Dependabot Secret within a GitHub organization
+        description: Resource to manage a GitHub Dependabot secret for an organization.
         name: github_dependabot_organization_secret
         title: github_dependabot_organization_secret (Resource) - GitHub
         examples:
-            - name: example_plaintext
+            - name: example
               manifest: |-
                 {
-                  "plaintext_value": "${var.some_secret_string}",
-                  "secret_name": "example_secret_name",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value",
+                  "visibility": "all"
+                }
+            - name: example
+              manifest: |-
+                {
+                  "encrypted_value": "${var.encrypted_value}",
+                  "key_id": "${data.github_dependabot_organization_public_key.example.key_id}",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
                   "visibility": "all"
                 }
               references:
-                plaintext_value: var.some_secret_string
-            - name: example_secret
-              manifest: |-
-                {
-                  "encrypted_value": "${var.some_encrypted_secret_string}",
-                  "secret_name": "example_secret_name",
-                  "visibility": "all"
-                }
-              references:
-                encrypted_value: var.some_encrypted_secret_string
-            - name: example_plaintext
-              manifest: |-
-                {
-                  "plaintext_value": "${var.some_secret_string}",
-                  "secret_name": "example_secret_name",
-                  "selected_repository_ids": [
-                    "${data.github_repository.repo.repo_id}"
-                  ],
-                  "visibility": "selected"
-                }
-              references:
-                plaintext_value: var.some_secret_string
-                selected_repository_ids: data.github_repository.repo.repo_id
-            - name: example_encrypted
-              manifest: |-
-                {
-                  "encrypted_value": "${var.some_encrypted_secret_string}",
-                  "secret_name": "example_secret_name",
-                  "selected_repository_ids": [
-                    "${data.github_repository.repo.repo_id}"
-                  ],
-                  "visibility": "selected"
-                }
-              references:
-                encrypted_value: var.some_encrypted_secret_string
-                selected_repository_ids: data.github_repository.repo.repo_id
-            - name: example_allow_drift
+                encrypted_value: var.encrypted_value
+                key_id: data.github_dependabot_organization_public_key.example.key_id
+            - name: example
               manifest: |-
                 {
                   "lifecycle": [
                     {
                       "ignore_changes": [
-                        "${remote_updated_at}"
+                        "${updated_at}"
                       ]
                     }
                   ],
-                  "plaintext_value": "placeholder",
-                  "secret_name": "example_secret_name",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value",
                   "visibility": "all"
                 }
               references:
-                lifecycle.ignore_changes: remote_updated_at
+                lifecycle.ignore_changes: updated_at
+            - name: example
+              manifest: |-
+                {
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value",
+                  "visibility": "selected"
+                }
+              dependencies:
+                github_dependabot_organization_secret_repositories.example: |-
+                    {
+                      "secret_name": "${github_dependabot_organization_secret.example.secret_name}",
+                      "selected_repository_ids": [
+                        "${data.github_repository.example.repo_id}"
+                      ]
+                    }
         argumentDocs:
-            created_at: '- Date the secret was created.'
-            encrypted_value: '- (DEPRECATED)(Optional) Please use value_encrypted.'
-            key_id: '- (Optional) ID of the public key used to encrypt the secret, required when setting encrypted_value.'
-            plaintext_value: '- (DEPRECATED)(Optional) Please use value.'
-            remote_updated_at: '- Date the secret was last updated in GitHub.'
-            secret_name: '- (Required) Name of the secret.'
-            selected_repository_ids: '- (Optional) An array of repository IDs that can access the organization variable; this requires visibility to be set to selected.'
-            updated_at: '- Date the secret was last updated by the provider.'
-            value: '- (Optional) Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.'
-            value_encrypted: '- (Optional) Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.'
-            visibility: '- (Required) Configures the access that repositories have to the organization secret; must be one of all, private, or selected.'
+            created_at: (String) Timestamp for when the secret was created.
+            encrypted_value: (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
+            id: (String) The ID of this resource.
+            key_id: (String) ID of the public key used to encrypt the secret.
+            plaintext_value: (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
+            remote_updated_at: (String) Timestamp for when the secret was last updated.
+            secret_name: (String) Name of the secret.
+            selected_repository_ids: (Set of Number, Deprecated) An array of repository ids that can access the organization secret.
+            updated_at: (String) Timestamp for when the secret was last updated by the provider.
+            value: (String, Sensitive) Plaintext value to be encrypted.
+            value_encrypted: (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
+            visibility: (String) Configures the access that repositories have to the organization secret. Must be one of 'all', 'private' or 'selected'. 'selected_repository_ids' is required if set to 'selected'.
         importStatements:
-            - terraform import github_dependabot_organization_secret.example mysecret
+            - terraform import github_dependabot_organization_secret.example secret-name
     github_dependabot_organization_secret_repositories:
         subCategory: ""
         description: Manages repository allow list for an Dependabot Secret within a GitHub organization.
@@ -1406,58 +1360,59 @@ resources:
             - terraform import github_dependabot_organization_secret_repository.example mysecret:123456
     github_dependabot_secret:
         subCategory: ""
-        description: Creates and manages an Dependabot Secret within a GitHub repository
+        description: Resource to manage a GitHub Dependabot secret for a repository.
         name: github_dependabot_secret
         title: github_dependabot_secret (Resource) - GitHub
         examples:
-            - name: example_plaintext
+            - name: example
               manifest: |-
                 {
-                  "plaintext_value": "${var.some_secret_string}",
-                  "repository": "example_repository",
-                  "secret_name": "example_secret_name"
+                  "repository": "example-repo",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value"
                 }
-              references:
-                plaintext_value: var.some_secret_string
-            - name: example_encrypted
+            - name: example
               manifest: |-
                 {
-                  "encrypted_value": "${var.some_encrypted_secret_string}",
-                  "repository": "example_repository",
-                  "secret_name": "example_secret_name"
+                  "encrypted_value": "${var.encrypted_value}",
+                  "key_id": "${data.github_dependabot_public_key.example.key_id}",
+                  "repository": "example-repo",
+                  "secret_name": "EXAMPLE_SECRET_NAME"
                 }
               references:
-                encrypted_value: var.some_encrypted_secret_string
-            - name: example_allow_drift
+                encrypted_value: var.encrypted_value
+                key_id: data.github_dependabot_public_key.example.key_id
+            - name: example
               manifest: |-
                 {
                   "lifecycle": [
                     {
                       "ignore_changes": [
-                        "${remote_updated_at}"
+                        "${updated_at}"
                       ]
                     }
                   ],
-                  "plaintext_value": "placeholder",
-                  "repository": "example_repository",
-                  "secret_name": "example_secret_name"
+                  "repository": "example-repo",
+                  "secret_name": "EXAMPLE_SECRET_NAME",
+                  "value": "example-value"
                 }
               references:
-                lifecycle.ignore_changes: remote_updated_at
+                lifecycle.ignore_changes: updated_at
         argumentDocs:
-            created_at: '- Date the secret was created.'
-            encrypted_value: '- (DEPRECATED)(Optional) Please use value_encrypted.'
-            key_id: '- (Optional) ID of the public key used to encrypt the secret, required when setting encrypted_value.'
-            plaintext_value: '- (DEPRECATED)(Optional) Please use value.'
-            remote_updated_at: '- Date the secret was last updated in GitHub.'
-            repository: '- (Required) Name of the repository.'
-            repository_id: '- ID of the repository.'
-            secret_name: '- (Required) Name of the secret.'
-            updated_at: '- Date the secret was last updated by the provider.'
-            value: '- (Optional) Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.'
-            value_encrypted: '- (Optional) Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.'
+            created_at: (String) Timestamp for when the secret was created.
+            encrypted_value: (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
+            id: (String) The ID of this resource.
+            key_id: (String) ID of the public key used to encrypt the secret.
+            plaintext_value: (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
+            remote_updated_at: (String) Timestamp for when the secret was last updated.
+            repository: (String) Name of the repository.
+            repository_id: (Number) ID of the repository.
+            secret_name: (String) Name of the secret.
+            updated_at: (String) Timestamp for when the secret was last updated by the provider.
+            value: (String, Sensitive) Plaintext value to be encrypted.
+            value_encrypted: (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
         importStatements:
-            - terraform import github_dependabot_secret.example myrepo:mysecret
+            - terraform import github_dependabot_secret.example repo-name:secret-name
     github_emu_group_mapping:
         subCategory: ""
         description: Manages mappings between external groups for enterprise managed users.
@@ -1648,6 +1603,47 @@ resources:
             name: '- (Required) The name of the organization.'
         importStatements:
             - terraform import github_enterprise_organization.org enterp/some-awesome-org
+    github_enterprise_organization_app_installation:
+        subCategory: ""
+        description: Manage the installation of a GitHub App on an organization owned by an enterprise. The app is installed on the organization, not on the enterprise account itself; GitHub offers no API for the latter. This resource requires GitHub Enterprise Cloud or GitHub Enterprise Server 3.19+ and an authenticated user that is an enterprise owner.
+        name: github_enterprise_organization_app_installation
+        title: github_enterprise_organization_app_installation (Resource) - GitHub
+        examples:
+            - name: all_repos
+              manifest: |-
+                {
+                  "client_id": "Iv1.abc123def456",
+                  "enterprise_slug": "my-enterprise",
+                  "organization": "my-org",
+                  "repository_selection": "all"
+                }
+            - name: selected_repos
+              manifest: |-
+                {
+                  "client_id": "Iv1.789ghi012jkl",
+                  "enterprise_slug": "my-enterprise",
+                  "organization": "my-org",
+                  "repository_selection": "selected",
+                  "selected_repositories": [
+                    "my-repo-1",
+                    "my-repo-2"
+                  ]
+                }
+        argumentDocs:
+            app_slug: (String) The slug of the installed app.
+            client_id: (String) The client ID of the GitHub App to install.
+            create: (String)
+            delete: (String)
+            enterprise_slug: (String) The slug of the enterprise that owns the organization.
+            id: (String) The ID of this resource.
+            installation_id: (String) The ID of the installation.
+            organization: (String) The login of the enterprise-owned organization to install the app on.
+            repository_selection: (String) The repositories the installation can access. Can be one of 'all', 'selected' or 'none'.
+            selected_repositories: (Set of String) The names of the repositories the installation can access when 'repository_selection' is 'selected'.
+            timeouts: (Block, Optional) (see below for nested schema)
+            update: (String)
+        importStatements:
+            - terraform import github_enterprise_organization_app_installation.all_repos my-enterprise:my-org:Iv1.abc123def456
     github_enterprise_security_analysis_settings:
         subCategory: ""
         description: Manages GitHub Enterprise security analysis settings.
@@ -2491,7 +2487,7 @@ resources:
         importStatements: []
     github_release:
         subCategory: ""
-        description: Creates and manages releases within a single GitHub repository
+        description: Resource to manage a GitHub release.
         name: github_release
         title: github_release (Resource) - GitHub
         examples:
@@ -2506,9 +2502,24 @@ resources:
               dependencies:
                 github_repository.repo: |-
                     {
-                      "description": "GitHub repo managed by Terraform",
-                      "name": "repo",
-                      "private": false
+                      "auto_init": true,
+                      "name": "repo"
+                    }
+            - name: example
+              manifest: |-
+                {
+                  "draft": false,
+                  "prerelease": false,
+                  "repository": "${github_repository.repo.name}",
+                  "tag_name": "v1.0.0"
+                }
+              references:
+                repository: github_repository.repo.name
+              dependencies:
+                github_repository.repo: |-
+                    {
+                      "auto_init": true,
+                      "name": "repo"
                     }
             - name: example
               manifest: |-
@@ -2535,26 +2546,30 @@ resources:
                       "name": "repo"
                     }
         argumentDocs:
-            assets_url: '- URL that can be provided to API calls displaying the attached assets to this release.'
-            body: '- (Optional) Text describing the contents of the tag.'
-            created_at: '- This is the date of the commit used for the release, and not the date when the release was drafted or published.'
-            discussion_category_name: '- (Optional) If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see Managing categories for discussions in your repository.'
-            draft: '- (Optional) Set to false to create a published release.'
-            generate_release_notes: '- (Optional) Set to true to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.'
-            html_url: '- URL of the release in GitHub.'
-            name: '- (Optional) The name of the release.'
-            node_id: '- GraphQL global node id for use with v4 API'
-            prerelease: '- (Optional) Set to false to identify the release as a full release.'
-            published_at: '- This is the date when the release was published. This will be empty if the release is a draft.'
-            release_id: '- The ID of the release.'
-            repository: '- (Required) The name of the repository.'
-            tag_name: '- (Required) The name of the tag.'
-            tarball_url: '- URL that can be provided to API calls to fetch the release TAR archive.'
-            target_commitish: '- (Optional) The branch name or commit SHA the tag is created from. Defaults to the default branch of the repository.'
-            upload_url: '- URL that can be provided to API calls to upload assets.'
-            url: '- URL that can be provided to API calls that reference this release.'
-            zipball_url: '- URL that can be provided to API calls to fetch the release ZIP archive.'
-        importStatements: []
+            assets_url: (String) The URL for the release assets.
+            body: (String) Text describing the contents of the tag.
+            created_at: (String) The date and time the release was created.
+            discussion_category_name: (String) If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
+            draft: (Boolean) Set to false to create a published release.
+            etag: (String) The ETag of the release.
+            generate_release_notes: (Boolean) Set to true to automatically generate the name and body for this release when it is created. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
+            html_url: (String) The HTML URL for the release.
+            id: (String) The ID of this resource.
+            name: (String) The name of the release.
+            node_id: (String) The node ID of the release.
+            prerelease: (Boolean) Set to false to identify the release as a full release.
+            published_at: (String) The date and time the release was published.
+            release_id: (Number) The ID of the release.
+            repository: (String) Name of the repository.
+            repository_id: (Number) ID of the repository.
+            tag_name: (String) Name of the tag.
+            tarball_url: (String) The URL for the tarball of the release.
+            target_commitish: (String) The branch name or commit SHA the tag is created from; this defaults to main.
+            upload_url: (String) The URL for the uploaded assets of release.
+            url: (String) The URL for the release.
+            zipball_url: (String) The URL for the zipball of the release.
+        importStatements:
+            - terraform import github_release.example repo-name:release-id
     github_repository:
         subCategory: ""
         description: Creates and manages repositories within GitHub organizations or personal accounts
@@ -2705,7 +2720,7 @@ resources:
             - terraform import github_repository_collaborator.collaborator terraform:someuser
     github_repository_collaborators:
         subCategory: ""
-        description: Manage the complete set of collaborators (users and teams) for a GitHub repository.
+        description: Resource to manage the complete set of collaborators (users and teams) for a repository.
         name: github_repository_collaborators
         title: github_repository_collaborators (Resource) - GitHub
         examples:
@@ -2741,7 +2756,7 @@ resources:
                     }
         argumentDocs:
             id: (String) The ID of this resource.
-            ignore_team: (Block Set) Teams to ignore when managing repository collaborators. (see below for nested schema)
+            ignore_team: (Block Set, Deprecated) Teams to ignore when managing repository collaborators. (see below for nested schema)
             invitation_ids: (Map of String) Map of usernames to invitation ID for users that haven't yet accepted their invitation to become a collaborator. This is only set on read, and is used internally to track pending invitations for users that aren't yet collaborators.
             owner_configured: (Boolean) Indicates whether the owner of a personal repository is configured as a collaborator.
             permission: (String) Permission to grant to the team. Must be one of pull, triage, push, maintain, admin or the name of an existing custom repository role within the organization. Defaults to push.

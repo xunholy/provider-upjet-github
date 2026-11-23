@@ -5325,6 +5325,11 @@ func (in *ReleaseObservation) DeepCopyInto(out *ReleaseObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RepositoryID != nil {
+		in, out := &in.RepositoryID, &out.RepositoryID
+		*out = new(int64)
+		**out = **in
+	}
 	if in.TagName != nil {
 		in, out := &in.TagName, &out.TagName
 		*out = new(string)

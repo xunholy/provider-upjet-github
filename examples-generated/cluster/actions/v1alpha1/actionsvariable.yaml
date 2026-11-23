@@ -4,12 +4,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: actions/v1alpha1/actionsvariable
   labels:
-    testing.upbound.io/example-name: example_variable
-  name: example-variable
+    testing.upbound.io/example-name: example
+  name: example
 spec:
   forProvider:
     repositorySelector:
       matchLabels:
         testing.upbound.io/example-name: example
-    value: example_variable_value
-    variableName: example_variable_name
+    value: example-value
+    variableName: EXAMPLE_VARIABLE_NAME

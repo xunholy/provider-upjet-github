@@ -15,22 +15,22 @@ import (
 
 type ActionsSecretInitParameters struct {
 
-	// (DEPRECATED)  This is ignored as drift detection is built into the resource.
+	// (Boolean, Deprecated)
 	DestroyOnDrift *bool `json:"destroyOnDrift,omitempty" tf:"destroy_on_drift,omitempty"`
 
-	// (DEPRECATED) Please use value_encrypted.
+	// (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
 	// Encrypted value of the secret using the GitHub public key in Base64 format.
 	EncryptedValueSecretRef *v2.SecretKeySelector `json:"encryptedValueSecretRef,omitempty" tf:"-"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
+	// (String) ID of the public key used to encrypt the secret.
 	// ID of the public key used to encrypt the secret.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// (DEPRECATED) Please use value.
+	// (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
 	// Plaintext value of the secret to be encrypted.
 	PlaintextValueSecretRef *v2.SecretKeySelector `json:"plaintextValueSecretRef,omitempty" tf:"-"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Repository
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
@@ -43,77 +43,78 @@ type ActionsSecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.
+	// (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
 	// Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
 	ValueEncryptedSecretRef *v2.SecretKeySelector `json:"valueEncryptedSecretRef,omitempty" tf:"-"`
 
-	// Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.
+	// (String, Sensitive) Plaintext value to be encrypted.
 	// Plaintext value to be encrypted.
 	ValueSecretRef *v2.SecretKeySelector `json:"valueSecretRef,omitempty" tf:"-"`
 }
 
 type ActionsSecretObservation struct {
 
-	// Date the secret was created.
-	// Date of secret creation.
+	// (String) Timestamp of when the secret was created.
+	// Timestamp of when the secret was created.
 	CreatedAt *string `json:"createdAt,omitempty" tf:"created_at,omitempty"`
 
-	// (DEPRECATED)  This is ignored as drift detection is built into the resource.
+	// (Boolean, Deprecated)
 	DestroyOnDrift *bool `json:"destroyOnDrift,omitempty" tf:"destroy_on_drift,omitempty"`
 
+	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
+	// (String) ID of the public key used to encrypt the secret.
 	// ID of the public key used to encrypt the secret.
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// Date the secret was last updated in GitHub.
-	// Date of secret update at the remote.
+	// (String) Timestamp for when the secret was last updated.
+	// Timestamp for when the secret was last updated.
 	RemoteUpdatedAt *string `json:"remoteUpdatedAt,omitempty" tf:"remote_updated_at,omitempty"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	Repository *string `json:"repository,omitempty" tf:"repository,omitempty"`
 
-	// ID of the repository.
+	// (Number) ID of the repository.
 	// ID of the repository.
 	RepositoryID *int64 `json:"repositoryId,omitempty" tf:"repository_id,omitempty"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// Date the secret was last updated by the provider.
-	// Date of secret update.
+	// (String) Timestamp of when the secret was last updated by the provider.
+	// Timestamp of when the secret was last updated by the provider.
 	UpdatedAt *string `json:"updatedAt,omitempty" tf:"updated_at,omitempty"`
 }
 
 type ActionsSecretParameters struct {
 
-	// (DEPRECATED)  This is ignored as drift detection is built into the resource.
+	// (Boolean, Deprecated)
 	// +kubebuilder:validation:Optional
 	DestroyOnDrift *bool `json:"destroyOnDrift,omitempty" tf:"destroy_on_drift,omitempty"`
 
-	// (DEPRECATED) Please use value_encrypted.
+	// (String, Sensitive, Deprecated) Encrypted value of the secret using the GitHub public key in Base64 format.
 	// Encrypted value of the secret using the GitHub public key in Base64 format.
 	// +kubebuilder:validation:Optional
 	EncryptedValueSecretRef *v2.SecretKeySelector `json:"encryptedValueSecretRef,omitempty" tf:"-"`
 
-	// ID of the public key used to encrypt the secret, required when setting encrypted_value.
+	// (String) ID of the public key used to encrypt the secret.
 	// ID of the public key used to encrypt the secret.
 	// +kubebuilder:validation:Optional
 	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
 
-	// (DEPRECATED) Please use value.
+	// (String, Sensitive, Deprecated) Plaintext value of the secret to be encrypted.
 	// Plaintext value of the secret to be encrypted.
 	// +kubebuilder:validation:Optional
 	PlaintextValueSecretRef *v2.SecretKeySelector `json:"plaintextValueSecretRef,omitempty" tf:"-"`
 
-	// Name of the repository.
+	// (String) Name of the repository.
 	// Name of the repository.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-github/apis/cluster/repo/v1alpha1.Repository
 	// +kubebuilder:validation:Optional
@@ -127,17 +128,17 @@ type ActionsSecretParameters struct {
 	// +kubebuilder:validation:Optional
 	RepositorySelector *v2.Selector `json:"repositorySelector,omitempty" tf:"-"`
 
-	// Name of the secret.
+	// (String) Name of the secret.
 	// Name of the secret.
 	// +kubebuilder:validation:Optional
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
-	// Encrypted value of the secret using the GitHub public key in Base64 format, key_id is required with this value. This conflicts with value, encrypted_value & plaintext_value.
+	// (String, Sensitive) Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
 	// Value encrypted with the GitHub public key, defined by key_id, in Base64 format.
 	// +kubebuilder:validation:Optional
 	ValueEncryptedSecretRef *v2.SecretKeySelector `json:"valueEncryptedSecretRef,omitempty" tf:"-"`
 
-	// Plaintext value of the secret to be encrypted. This conflicts with value_encrypted, encrypted_value & plaintext_value.
+	// (String, Sensitive) Plaintext value to be encrypted.
 	// Plaintext value to be encrypted.
 	// +kubebuilder:validation:Optional
 	ValueSecretRef *v2.SecretKeySelector `json:"valueSecretRef,omitempty" tf:"-"`
@@ -170,7 +171,7 @@ type ActionsSecretStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// ActionsSecret is the Schema for the ActionsSecrets API. Creates and manages an Action Secret within a GitHub repository
+// ActionsSecret is the Schema for the ActionsSecrets API. Resource to manage a GitHub Actions secret for a repository.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

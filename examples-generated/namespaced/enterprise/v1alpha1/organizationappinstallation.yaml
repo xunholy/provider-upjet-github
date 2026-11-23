@@ -1,0 +1,15 @@
+apiVersion: enterprise.github.m.upbound.io/v1alpha1
+kind: OrganizationAppInstallation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: enterprise/v1alpha1/organizationappinstallation
+  labels:
+    testing.upbound.io/example-name: all_repos
+  name: all-repos
+  namespace: upbound-system
+spec:
+  forProvider:
+    clientId: Iv1.abc123def456
+    enterpriseSlug: my-enterprise
+    organization: my-org
+    repositorySelection: all

@@ -38,6 +38,7 @@ import (
 	actionsworkflowpermissions "github.com/crossplane-contrib/provider-upjet-github/internal/controller/cluster/enterprise/actionsworkflowpermissions"
 	ipallowlistentry "github.com/crossplane-contrib/provider-upjet-github/internal/controller/cluster/enterprise/ipallowlistentry"
 	organization "github.com/crossplane-contrib/provider-upjet-github/internal/controller/cluster/enterprise/organization"
+	organizationappinstallation "github.com/crossplane-contrib/provider-upjet-github/internal/controller/cluster/enterprise/organizationappinstallation"
 	organizationruleset "github.com/crossplane-contrib/provider-upjet-github/internal/controller/cluster/enterprise/organizationruleset"
 	securityanalysissettings "github.com/crossplane-contrib/provider-upjet-github/internal/controller/cluster/enterprise/securityanalysissettings"
 	organizationblock "github.com/crossplane-contrib/provider-upjet-github/internal/controller/cluster/organization/organizationblock"
@@ -118,6 +119,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		actionsworkflowpermissions.Setup,
 		ipallowlistentry.Setup,
 		organization.Setup,
+		organizationappinstallation.Setup,
 		organizationruleset.Setup,
 		securityanalysissettings.Setup,
 		organizationblock.Setup,
@@ -204,6 +206,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		actionsworkflowpermissions.SetupGated,
 		ipallowlistentry.SetupGated,
 		organization.SetupGated,
+		organizationappinstallation.SetupGated,
 		organizationruleset.SetupGated,
 		securityanalysissettings.SetupGated,
 		organizationblock.SetupGated,
@@ -289,6 +292,7 @@ func SetupWebhookWithManager(mgr ctrl.Manager) error {
 		actionsworkflowpermissions.SetupWebhookWithManager,
 		ipallowlistentry.SetupWebhookWithManager,
 		organization.SetupWebhookWithManager,
+		organizationappinstallation.SetupWebhookWithManager,
 		organizationruleset.SetupWebhookWithManager,
 		securityanalysissettings.SetupWebhookWithManager,
 		organizationblock.SetupWebhookWithManager,

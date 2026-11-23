@@ -25,6 +25,5 @@ metadata:
   name: repo
 spec:
   forProvider:
-    description: GitHub repo managed by Terraform
+    autoInit: true
     name: repo
-    private: false

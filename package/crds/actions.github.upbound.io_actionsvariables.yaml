@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ActionsVariable is the Schema for the ActionsVariables API. Creates
-          and manages an Action variable within a GitHub repository
+        description: ActionsVariable is the Schema for the ActionsVariables API. Resource
+          to manage a GitHub Actions variable for a repository.
         properties:
           apiVersion:
             description: |-
@@ -75,7 +75,7 @@ spec:
                 properties:
                   repository:
                     description: |-
-                      Name of the repository.
+                      (String) Name of the repository.
                       Name of the repository.
                     type: string
                   repositoryRef:
@@ -154,12 +154,12 @@ spec:
                     type: object
                   value:
                     description: |-
-                      Value of the variable.
+                      (String) Value of the variable.
                       Value of the variable.
                     type: string
                   variableName:
                     description: |-
-                      Name of the variable.
+                      (String) Name of the variable.
                       Name of the variable.
                     type: string
                 type: object
@@ -178,7 +178,7 @@ spec:
                 properties:
                   repository:
                     description: |-
-                      Name of the repository.
+                      (String) Name of the repository.
                       Name of the repository.
                     type: string
                   repositoryRef:
@@ -257,12 +257,12 @@ spec:
                     type: object
                   value:
                     description: |-
-                      Value of the variable.
+                      (String) Value of the variable.
                       Value of the variable.
                     type: string
                   variableName:
                     description: |-
-                      Name of the variable.
+                      (String) Name of the variable.
                       Name of the variable.
                     type: string
                 type: object
@@ -368,35 +368,36 @@ spec:
                 properties:
                   createdAt:
                     description: |-
-                      Date the variable was created.
-                      Date of 'actions_variable' creation.
+                      (String) Timestamp for when the variable was created.
+                      Timestamp for when the variable was created.
                     type: string
                   id:
+                    description: (String) The ID of this resource.
                     type: string
                   repository:
                     description: |-
-                      Name of the repository.
+                      (String) Name of the repository.
                       Name of the repository.
                     type: string
                   repositoryId:
                     description: |-
-                      ID of the repository.
+                      (Number) ID of the repository.
                       ID of the repository.
                     format: int64
                     type: integer
                   updatedAt:
                     description: |-
-                      Date the variable was last updated.
-                      Date of 'actions_variable' update.
+                      (String) Timestamp for when the variable was last updated.
+                      Timestamp for when the variable was last updated.
                     type: string
                   value:
                     description: |-
-                      Value of the variable.
+                      (String) Value of the variable.
                       Value of the variable.
                     type: string
                   variableName:
                     description: |-
-                      Name of the variable.
+                      (String) Name of the variable.
                       Name of the variable.
                     type: string
                 type: object

@@ -4,10 +4,10 @@ metadata:
   annotations:
     meta.upbound.io/example-id: actions/v1alpha1/organizationactionsvariable
   labels:
-    testing.upbound.io/example-name: example_variable
-  name: example-variable
+    testing.upbound.io/example-name: example
+  name: example
 spec:
   forProvider:
-    value: example_variable_value
-    variableName: example_variable_name
-    visibility: private
+    value: example-value
+    variableName: EXAMPLE_VARIABLE_NAME
+    visibility: all

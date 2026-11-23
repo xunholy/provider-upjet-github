@@ -19,6 +19,9 @@ func (tr *IPAllowListEntry) Hub() {}
 func (tr *Organization) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *OrganizationAppInstallation) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *OrganizationRuleset) Hub() {}
 
 // Hub marks this type as a conversion hub.

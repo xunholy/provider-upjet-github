@@ -35,8 +35,8 @@ spec:
     schema:
       openAPIV3Schema:
         description: RepositoryCollaboratorSet is the Schema for the RepositoryCollaboratorSets
-          API. Manage the complete set of collaborators (users and teams) for a GitHub
-          repository.
+          API. Resource to manage the complete set of collaborators (users and teams)
+          for a repository.
         properties:
           apiVersion:
             description: |-
@@ -63,7 +63,7 @@ spec:
                 properties:
                   ignoreTeam:
                     description: |-
-                      (Block Set) Teams to ignore when managing repository collaborators. (see below for nested schema)
+                      (Block Set, Deprecated) Teams to ignore when managing repository collaborators. (see below for nested schema)
                       Teams to ignore when managing repository collaborators.
                     items:
                       properties:
@@ -291,7 +291,7 @@ spec:
                 properties:
                   ignoreTeam:
                     description: |-
-                      (Block Set) Teams to ignore when managing repository collaborators. (see below for nested schema)
+                      (Block Set, Deprecated) Teams to ignore when managing repository collaborators. (see below for nested schema)
                       Teams to ignore when managing repository collaborators.
                     items:
                       properties:
@@ -573,7 +573,7 @@ spec:
                     type: string
                   ignoreTeam:
                     description: |-
-                      (Block Set) Teams to ignore when managing repository collaborators. (see below for nested schema)
+                      (Block Set, Deprecated) Teams to ignore when managing repository collaborators. (see below for nested schema)
                       Teams to ignore when managing repository collaborators.
                     items:
                       properties:
