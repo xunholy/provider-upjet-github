@@ -11,8 +11,12 @@ export TERRAFORM_VERSION ?= 1.5.7
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
 export TERRAFORM_PROVIDER_SOURCE ?= integrations/github
-export TERRAFORM_PROVIDER_REPO ?= https://github.com/integrations/terraform-provider-github
-export TERRAFORM_PROVIDER_VERSION ?= 6.13.0
+# The enterprise organization app installation resource is not in a release of
+# the Terraform provider yet (integrations/terraform-provider-github#3535), so
+# this branch generates from a fork that carries it. The registry has no build
+# of the fork: the schema comes from a binary built from the fork's source.
+export TERRAFORM_PROVIDER_REPO ?= https://github.com/xunholy/terraform-provider-github
+export TERRAFORM_PROVIDER_VERSION ?= 6.13.1-appinstall.1
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-github
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-github_v1.5.7
@@ -121,20 +125,20 @@ $(TERRAFORM): check-terraform-version
 	@rm -fr $(TOOLS_HOST_DIR)/tmp-terraform
 	@$(OK) installing terraform $(HOSTOS)-$(HOSTARCH)
 
-$(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
+$(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM) pull-docs
 	@$(INFO) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
-	@mkdir -p $(TERRAFORM_WORKDIR)
-	@echo '{"terraform":[{"required_providers":[{"provider":{"source":"'"$(TERRAFORM_PROVIDER_SOURCE)"'","version":"'"$(TERRAFORM_PROVIDER_VERSION)"'"}}],"required_version":"'"$(TERRAFORM_VERSION)"'"}]}' > $(TERRAFORM_WORKDIR)/main.tf.json
-	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) init > $(TERRAFORM_WORKDIR)/terraform-logs.txt 2>&1
-	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
+	@mkdir -p $(TERRAFORM_WORKDIR)/bin
+	@cd "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" && GOOS= GOARCH= go build -o "$(abspath $(TERRAFORM_WORKDIR))/bin/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)" .
+	@printf 'provider_installation {\n  dev_overrides {\n    "%s" = "%s"\n  }\n  direct {}\n}\n' "$(TERRAFORM_PROVIDER_SOURCE)" "$(abspath $(TERRAFORM_WORKDIR))/bin" > $(TERRAFORM_WORKDIR)/terraformrc
+	@echo '{"terraform":[{"required_providers":[{"provider":{"source":"'"$(TERRAFORM_PROVIDER_SOURCE)"'"}}],"required_version":"'"$(TERRAFORM_VERSION)"'"}]}' > $(TERRAFORM_WORKDIR)/main.tf.json
+	@TF_CLI_CONFIG_FILE="$(abspath $(TERRAFORM_WORKDIR))/terraformrc" $(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2> $(TERRAFORM_WORKDIR)/terraform-logs.txt
 	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
 
 pull-docs:
 	@if [ ! -d "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" ]; then \
   		mkdir -p "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" && \
-		git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)"; \
+		git clone -c advice.detachedHead=false --depth 1 --branch "v$(TERRAFORM_PROVIDER_VERSION)" "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)"; \
 	fi
-	@git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" sparse-checkout set "$(TERRAFORM_DOCS_PATH)"
 
 generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 

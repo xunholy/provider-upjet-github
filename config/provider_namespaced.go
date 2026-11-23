@@ -44,6 +44,7 @@ import (
 	"github.com/crossplane-contrib/provider-upjet-github/config/namespaced/enterpriseactionsworkflowpermissions"
 	"github.com/crossplane-contrib/provider-upjet-github/config/namespaced/enterpriseipallowlistentry"
 	"github.com/crossplane-contrib/provider-upjet-github/config/namespaced/enterpriseorganization"
+	"github.com/crossplane-contrib/provider-upjet-github/config/namespaced/enterpriseorganizationappinstallation"
 	"github.com/crossplane-contrib/provider-upjet-github/config/namespaced/enterprisesecurityanalysissettings"
 	"github.com/crossplane-contrib/provider-upjet-github/config/namespaced/githubissue"
 	"github.com/crossplane-contrib/provider-upjet-github/config/namespaced/issuelabel"
@@ -138,6 +139,7 @@ func GetProviderNamespaced(ctx context.Context) (*ujconfig.Provider, error) {
 		enterpriseactionsworkflowpermissions.Configure,
 		enterpriseipallowlistentry.Configure,
 		enterpriseorganization.Configure,
+		enterpriseorganizationappinstallation.Configure,
 		enterprisesecurityanalysissettings.Configure,
 		githubissue.Configure,
 		issuelabel.Configure,

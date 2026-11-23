@@ -75,6 +75,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"github_enterprise_ip_allow_list_entry": config.IdentifierFromProvider,
 	// Imported by using the following format: {{ slug/orgname }} E.g:enterp/some-awesome-org
 	"github_enterprise_organization": config.IdentifierFromProvider,
+	// Can be imported using the following format: {{ enterprise_slug }}:{{ organization }}:{{ client_id }}
+	"github_enterprise_organization_app_installation": config.IdentifierFromProvider,
 	// Can be imported using the following format: {{ enterprise slug }}
 	"github_enterprise_security_analysis_settings": config.IdentifierFromProvider,
 	// No import documentation on Terraform provider.

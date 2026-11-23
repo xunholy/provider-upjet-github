@@ -44,6 +44,7 @@ import (
 	"github.com/crossplane-contrib/provider-upjet-github/config/cluster/enterpriseactionsworkflowpermissions"
 	"github.com/crossplane-contrib/provider-upjet-github/config/cluster/enterpriseipallowlistentry"
 	"github.com/crossplane-contrib/provider-upjet-github/config/cluster/enterpriseorganization"
+	"github.com/crossplane-contrib/provider-upjet-github/config/cluster/enterpriseorganizationappinstallation"
 	"github.com/crossplane-contrib/provider-upjet-github/config/cluster/enterprisesecurityanalysissettings"
 	"github.com/crossplane-contrib/provider-upjet-github/config/cluster/githubissue"
 	"github.com/crossplane-contrib/provider-upjet-github/config/cluster/issuelabel"
@@ -138,6 +139,7 @@ func GetProvider(ctx context.Context) (*ujconfig.Provider, error) {
 		enterpriseactionsworkflowpermissions.Configure,
 		enterpriseipallowlistentry.Configure,
 		enterpriseorganization.Configure,
+		enterpriseorganizationappinstallation.Configure,
 		enterprisesecurityanalysissettings.Configure,
 		githubissue.Configure,
 		issuelabel.Configure,
