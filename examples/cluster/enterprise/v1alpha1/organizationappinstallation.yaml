@@ -12,3 +12,49 @@ spec:
     organization: my-org
     clientId: Iv1.abc123def456
     repositorySelection: all
+  # An app is installed through the enterprise, so this ProviderConfig holds a GitHub App's installation on the
+  # enterprise itself, not on the organization
+  providerConfigRef:
+    name: enterprise
+
+---
+
+apiVersion: enterprise.github.upbound.io/v1alpha1
+kind: OrganizationAppInstallation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: enterprise/v1alpha1/organizationappinstallation
+  labels:
+    testing.upbound.io/example-name: some-app-installation
+  name: another-app-installation
+spec:
+  forProvider:
+    enterpriseSlug: my-enterprise
+    organization: my-org
+    clientId: Iv1.def456abc123
+    repositorySelection: selected
+    selectedRepositoriesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: some-app-installation
+      # Crossplane keeps the names it has resolved. With Always the installation follows the Repository objects that
+      # match, so the app is granted one that is added later and loses one that is removed
+      policy:
+        resolve: Always
+  providerConfigRef:
+    name: enterprise
+
+---
+
+# Made with the organization's own ProviderConfig
+apiVersion: repo.github.upbound.io/v1alpha1
+kind: Repository
+metadata:
+  annotations:
+    meta.upbound.io/example-id: enterprise/v1alpha1/organizationappinstallation
+  labels:
+    testing.upbound.io/example-name: some-app-installation
+  name: some-app-installation
+spec:
+  forProvider:
+    name: example-repo
+    visibility: private

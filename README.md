@@ -105,6 +105,27 @@ There are a few endpoints in the GitHub API that operate on the *enterprise* lev
 account. One such resource is `Organization` which can be used to provision new organizations on the enterprise level. In this case, the token
 or app authentication must have at least `admin:enterprise` scope.
 
+### Installing an app on an enterprise's organizations
+
+`OrganizationAppInstallation` installs a GitHub App on an organization that an enterprise owns, keeps the repositories the app can reach as
+they are declared, and uninstalls the app when the object is deleted. It was tried against GitHub Enterprise Cloud with GitHub App
+authentication, as a cluster-scoped and as a namespaced resource (build `v0.23.0-alpha.1`, November 2026). A personal access token was not
+tried.
+
+* The provider config is the enterprise's, not the organization's. The GitHub App the provider authenticates as must be installed on the
+  enterprise itself and hold the permission `enterprise_organization_installations: write`, and `installation_id` in the `credentials` JSON
+  is the id of that installation. With the app's installation on the organization instead, GitHub answers
+  `403 Resource not accessible by integration`.
+* `owner` in the `credentials` JSON must still name an account that exists, because the provider looks it up when it is configured. An
+  organization of the enterprise works.
+* `repositorySelection` is `all` or `selected` for an app that asks for repository permissions. GitHub refuses `none` for such an app with
+  `422 Cannot install the app with an empty repository list because repository access is required`. `all` and `selected` can be switched in
+  place, and repositories added to or taken out of `selectedRepositories`, without the app being reinstalled.
+* References to `Repository` objects are resolved once. `selectedRepositoriesRefs` and `selectedRepositoriesSelector` fill
+  `selectedRepositories` with the repositories' names, and Crossplane keeps the names it has resolved: a reference that is added or removed
+  later changes nothing in GitHub, and the object still reports `Synced`. Set `policy.resolve: Always` on each reference, or on the selector,
+  for the installation to follow them. An installation made together with the repositories it refers to waits until they exist.
+
 ## Supported resources
 
 | Kind                          | Group          | Terraform Resource Name                           | Notes                                                                                                                                                                                                                                                                                                                       |
@@ -180,7 +201,7 @@ or app authentication must have at least `admin:enterprise` scope.
 | `IPAllowListEntry`            | `enterprise`   | `github_enterprise_ip_allow_list_entry`           | Requires a GitHub Enterprise account and enterprise admin permissions.                                                                                                                                                                                                                                                      |
 | `OrganizationRuleset`         | `enterprise`   | `github_organization_ruleset`                     |                                                                                                                                                                                                                                                                                                                             |
 | `Organization`                | `enterprise`   | `github_enterprise_organization`                  | Works only with PAT based authentication using a token with at least `admin:enterprise` scope.<br/>The following *GraphQL* query can be used to obtain the required `enterprise_id`:<br/> `gh api graphql -f query='query ($slug: String!) { enterprise(slug: $slug) { id } }' -F slug='<slug>' --jq '.data.enterprise.id'` |
-| `OrganizationAppInstallation` | `enterprise`   | `github_enterprise_organization_app_installation` | Not in a release of the Terraform provider yet: generated from a fork that carries integrations/terraform-provider-github#3535. Requires a GitHub Enterprise account and enterprise admin permissions.                                                                                                                      |
+| `OrganizationAppInstallation` | `enterprise`   | `github_enterprise_organization_app_installation` | Not in a release of the Terraform provider yet: generated from a fork that carries integrations/terraform-provider-github#3535.<br/>With GitHub App authentication the app must be installed on the enterprise itself: see [Installing an app on an enterprise's organizations](#installing-an-app-on-an-enterprises-organizations).
 | `SecurityAnalysisSettings`    | `enterprise`   | `github_enterprise_security_analysis_settings`    | Requires a GitHub Enterprise account and enterprise admin permissions. Advanced Security features need a GitHub Advanced Security license.                                                                                                                                                                                  |
 
 ## Adding resources
